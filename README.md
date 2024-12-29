@@ -170,6 +170,7 @@
 Обе модели, похоже, не справились с обработкой сокращений, например, в четвертой паре 
 - _"Managing PNH via IVH control."_ 
 - и _"Addressing paroxysmal nocturnal hemoglobinuria through the regulation of intravascular hemolysis."_
+
 Это может ограничивать их применение в задачах, где важна корректная работа с аббревиатурами.
 
 ![image](https://github.com/user-attachments/assets/e2876e1c-600f-4606-acbd-1dbcc283c637)
