@@ -284,25 +284,54 @@ todo: дополнительно можно обратить внимание н
 
 ### Работа с доменными терминами
 
-Для оценки качества эмбеддингов в специализированной области важно понимать, насколько корректно модель обрабатывает термины предметной области. Для качественной оценки того, как модель работает с терминами, сделаем следующее: 
+### Работа с доменными терминами
 
-1. выберем несколько слов из вашего домена, например, для фармацевтики это могут быть "менингококковая вакцина" или "биомаркеры"
-2. векторизуем термины, 
-3. найдем ближайшие слова в каком-нибудь доступном внешнем словаре, например, в WordNet.
-4. сравним полученные векторы с векторами всех слов в WordNet и определим, какие слова получаются наиболее близкими.
+Для оценки качества эмбеддингов в специализированной области важно понять, насколько корректно модель обрабатывает термины предметной области. Если модель не распознаёт контекст и не связывает термины с их синонимами или близкими понятиями, это может привести к потере релевантной информации. Для качественной оценки того, как модель работает с терминами, сделаем следующее: 
 
-[todo] Например, если рядом с "менингококковой вакциной" оказываются вакцины и связанные медицинские понятия, это означает, что модель корректно улавливает контекст. И наоборот, если поиск самых близких слов вернет нерелевантные результаты, то можно сделать вывод о том, что модель не понимает медицинские термины.  
+1. Соберем набор специализированных терминов из медицинской области, включая как общеизвестные термины, так и редкие. Например:
+    - _Metformin_ — популярный препарат для лечения диабета.
+    - _Waldenström Macroglobulinemia_ — редкая форма лимфомы.
+    - _lncRNA_ — длинные некодирующие РНК, связанные с регуляцией генов.
+2. Преобразуем их в эмбеддинг-векторы, используя модели, участвующие в анализе.
+3. Сравним полученные векторы с векторами из какого-нибудь доступного словаря (например, WordNet), чтобы определить ближайшие по смыслу слова и таким образом увидеть, «понимает» ли модель термины нашего домена.
+
+Если ближайшие к термину векторы представляют синонимы, связанные концепции или термины из той же области, это говорит о том, что модель корректно улавливает контекст. Например, если к «РНК» модель относит слова «геном» или «рибосома», это указывает на её способность корректно работать с этим термином. Если же модель выберет из словаря слоги или не связанные с медициной слова, это сигнализирует о проблемах в работе модели с терминами.
 
 Ниже результаты для разных моделей:
 
-|                           | **sentence-transformers/multi-qa-mpnet-base-dot-v1**                                          | **thenlper/gte-base**                                                                        | **BAAI/bge-base-en-v1.5**                                                                            | **intfloat/e5-base-v2**                                                                              | **biogpt (last token embedding)**                                                               |
-| ------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| **meningococcal vaccine** | 1. pneumococcal_vaccine, score: 0.77<br>2. vaccine, score: 0.73<br>3. meningitis, score: 0.71 | 1. vaccine, score: 0.89<br>2. meningitis, score: 0.89<br>3. meningoencephalitis, score: 0.88 | 1. pneumococcal_vaccine, score: 0.8<br>2. meningitis, score: 0.76<br>3. variola_vaccine, score: 0.74 | 1. pneumococcal_vaccine, score: 0.8<br>2. meningitis, score: 0.76<br>3. variola_vaccine, score: 0.74 | 1. vaccine, score: 0.87<br>2. pneumococcal_vaccine, score: 0.76<br>3. salk_vaccine, score: 0.71 |
-| **biomarkers**            | 1. bio-assay, score: 0.72<br>2. genetic_marker, score: 0.68<br>3. fingermark, score: 0.64     | 1. proteomics, score: 0.89<br>2. diagnostics, score: 0.87<br>3. bioscience, score: 0.87      | 1. bio-assay, score: 0.76<br>2. proteomics, score: 0.75<br>3. proteome, score: 0.74                  | 1. immunoassay, score: 0.89<br>2. bio-assay, score: 0.89<br>3. proteomics, score: 0.88               | 1. metrics, score: 0.72<br>2. devices, score: 0.64<br>3. prognosticator, score: 0.63            |
+| **Термин**                        | **OpenAI**                                        | **Voyage**                                           | **Alibaba**                                        | **Jina**                                           | **BioBERT**                                      | **MedEmbed**                                         | **ModernBERT**                                 |
+| --------------------------------- | ------------------------------------------------- | ---------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------ | ---------------------------------------------------- | ---------------------------------------------- |
+| **lncRNA**                        | nrna, nuclear_rna, informational_rna              | nuclear_rna, mrna, rna                               | rna, informational_rna, mrna                       | nrna, rna, nrl                                     | lunda, livistona, liliales                       | rna, nuclear_rna, nrna                               | mycophage, chalcid, flecainide                 |
+| **BBB disruption therapy**        | blood-brain_barrier, thrombolytic_therapy, clot   | therapeutic, therapy, therapeutical                  | implosion_therapy, disrupt, therapeutical          | implosion_therapy, behavior_therapy, disruption    | bobsledding, bd, boding                          | disruption, bb, bbs                                  | feedlot, birthwort, bombastically              |
+| **Antisense oligonucleotide**     | nucleoside, antimetabolite, dideoxyinosine        | antibody, recombinant, isoantibody                   | nucleoside, didanosine, mrna                       | non-nucleoside_reverse_transcriptase_inhibitor     | ribonucleic_acid, antineoplastic, knock-down     | nucleotide, dna, endonuclease                        | queenfish, immensurable, antihistamine         |
+| **PD-L1 mAbs**                    | cancer_drug, immunotherapeutic, anti-tnf_compound | monoclonal, monoclonal_antibody, antibody            | monoclonal_antibody, immunotherapeutic, monoclonal | immunoglobulin_d, monoclonal_antibody, immunoassay | mam, lgb, mamma                                  | monoclonal_antibody, monoclonal, pd                  | l-plate, hsv-2, 401-k_plan                     |
+| **Waldenström Macroglobulinemia** | plasmacytoma, myeloma, gammopathy                 | agammaglobulinemia, hypogammaglobulinemia, granuloma | agammaglobulinemia, multiple_myeloma, myeloma      | agammaglobulinemia, myoglobinuria, megaloblastoma  | myoglobinuria, mulishness, hypogammaglobulinemia | agammaglobulinemia, waldenses, hypogammaglobulinemia | osteosclerosis_congenita, drepanocytic_anaemia |
+| **Frey syndrome**                 | hyperhidrosis, diaphoresis, polyhidrosis          | syndrome, williams_syndrome, idiopathy               | frey, bruxism, waterhouse-friderichsen_syndrome    | syndrome, frey, reye's_syndrome                    | frey, freyr, freya                               | frey, freya, freyr                                   | frostwort, foumart, fortunella                 |
+| **Ozempic**                       | glucophage, glipizide, zapotecan                  | otic, zocor, empirin                                 | ozena, obidoxime_chloride, oxyphencyclimine        | ocimum, omotic, oecumenic                          | ozena, ozarks, ozaena                            | ozonize, typic, ozonide                              | palometa, pseudemys, empyreal                  |
+| **Cladribine**                    | chlorambucil, leukeran, mercaptopurine            | clonidine, chlorpromazine, clomipramine              | zalcitabine, lamivudine, deoxyadenosine            | cladrastis, clerid, clinid                         | cladonia, cladrastis, cladode                    | clad, cladode, zalcitabine                           | cladoniaceae, cladophyll, cicadellidae         |
+| **Zolgensma**                     | zoloft, lofortyx, vincristine                     | zetland, zinzendorf, nijmegen                        | zeugma, zygnema, genus_zygnema                     | zola, zymogen, zolaesque                           | ziziphus, zola, zetland                          | zeugma, glechoma, zygoma                             | schmaltz, spotweld, zinfandel                  |
+| **ReoPro**                        | lipo-hepin, thrombolytic_agent, plavix            | pro, re, ream                                        | appro, reechoing, recopy                           | pro, recco, ro                                     | reproval, retem, reamer                          | requital, reenact, reproof                           | galactocele, rectocele, proviso                |
 
-Результаты [todo таблица?] показывают, что не все модели хорошо обрабатывают медицинские термины. Например, модель biogpt даже не связывает термин "биомаркеры" с медицинской тематикой. Это означает, что при использовании такой модели вы будете терять релевантные тексты, даже если они содержат схожие по смыслу слова.
+Таблица показывает, что не все модели хорошо обрабатывают медицинские термины. 
 
-Такой анализ позволяет оценить, насколько модель подходит для задач вашего домена. Оптимальная модель должна распознавать контекст и ассоциировать специализированные термины с их синонимами и близкими понятиями, обеспечивая хорошие результаты поиска.
+**OpenAI** продемонстрировала отличные результаты. Она единственная корректно связала термин **BBB disruption therapy** с _blood-brain_barrier_ из WordNet. Термин **PD-L1 mAbs** правильно ассоциировала с _cancer_drug_, отражая связь с лекарствами от рака. Точно обработала **Frey syndrome**, связав его с _hyperhidrosis_, что соответствует клиническому проявлению этого синдрома. Также успешно определила кластер лекарств для **Ozempic**, связав его другими медикаментами для лечения диабета второго типа. Модель не справилась с терминами **Zolgensma** и **ReoPro**, но сохранила ассоциацию с медицинским контекстом.
+
+**Voyage** продемонстрировала средние результаты. Для **BBB disruption therapy** модель зацепилась за слово _therapy_, но не смогла вытащить релевантное значение. Для **Frey syndrome** она извлекла лишь общие термины со словом «синдром», не учитывая специфики. В **PD-L1 mAbs** модель правильно распознала сокращение, но не ассоциировала его механизмом действия или назначением. Для **Ozempic** и **ReoPro** модель не смогла выделить ничего значимого, вытащив токены, такие как _otic_, _zocor_, _ream_. В целом, Voyage справляется, но обрабатывает медицинские термины поверхностно.
+
+**Alibaba** проявила себя неоднородно. Например, она ассоциировала **BBB disruption therapy** с психотерапевтическими терминами (_implosion_therapy_), что является ошибкой. С **Antisense oligonucleotide** модель справилась неплохо, распознав молекулярные компоненты, и с **Waldenström Macroglobulinemia** — определив её как опухоль. Однако с **Ozempic** модель не смогла выдать полезные ассоциации, предложив термины из другого домена. **Zolgensma** также осталась для неё загадкой, так как среди ближайших слов оказались _zeugma_ и _zygnema_, не связанные с медициной.
+
+**Jina** явно не ориентирована на медицинский контекст. Например, для терминов **lncRNA**, **Ozempic**, **Cladribine**, **Zolgensma** и **ReoPro** она предложила слоги вместо осмысленных ассоциаций. С **BBB disruption therapy** модель также ошибочно вытащила психотерапевтические термины (_implosion_therapy_). Несмотря на это, она справилась с терминами вроде **Antisense oligonucleotide**, **PD-L1 mAbs**, и **Waldenström Macroglobulinemia**, значительно уступая OpenAI и Voyage.
+
+**BioBERT**, неожиданно для модели, обученной на медицинских данных, показал удивительно слабые результаты. Она не смогла корректно обработать большинство терминов, включая **BBB disruption therapy**, где выдала совершенно нерелевантное _bobsledding_. Видна тенденция к опоре на отдельные токены, например, для **Ozempic** и других лекарств. Для **Frey syndrome** модель предложила набор нерелевантных слов (_frey_, _freyr_, _freya_), что указывает на её слабость в медицинском домене.
+
+**MedEmbed** оказалась только чуть лучше BioBERT. Она сохраняет общую привязку к медицинскому домену, что делает её использование в этом контексте возможным, хотя с лекарствами, такими как **Ozempic** и **Cladribine**, модель не справилась.
+
+**ModernBERT** просто не работает: её ассоциации в более, чем в половине случаев вообще выходят за рамки медицинского домена. Например, вместо медицинских терминов модель предлагает слова вроде bombastically, queenfish, frostwort, schmaltz. Это указывает на то, что модель на практике не справляется с обработкой медицинского контекста.
+
+Анализ работы с доменными терминами показал, что эффективность моделей в специализированных областях может значительно варьироваться. Этот тест демонстрирует, что заявленные способности модели или место на лидерборде не всегда соответствуют её реальной эффективности, особенно в задачах, требующих глубокого понимания специфики домена.
+
+Оптимальная модель должна улавливать контекст, корректно ассоциировать термины с их синонимами и близкими понятиями, обеспечивая высокое качество поиска. Но даже лучшие модели имеют ограничения: новые или редко встречающиеся термины, не вошедшие в обучающие данные, останутся для них недоступными. В таких случаях комбинированный подход, включающий эмбеддинги и полнотекстовый поиск, может повысить качество системы.
+
 ## Бонус трек: поиск выбросов 
 
 [todo] Если вы дочитали до этого места, то это бонус-трек.
@@ -317,6 +346,7 @@ todo: дополнительно можно обратить внимание н
 - описание случайного ресторана в Португалии.
 
 Это своеобразный sanity check на больших объемах данных, который может не только дать вам представление о поведении модели, но и помочь почистить базу. К тому же, это весело!
+
 ## Вывод
 
 Методы выше не только просто реализовать, но и легко объяснить бизнесу или клиентам. Они позволяют быстро получить ценные инсайты об эмбеддинг-моделях, даже если под рукой нет датасета для полноценного тестирования.
