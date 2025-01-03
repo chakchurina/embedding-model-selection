@@ -21,17 +21,17 @@
 Для демонстрации мы выбрали несколько моделей с топа BEIR на момент написания статьи, а также добавили специализированные модели для биомедицинских данных. На самом деле модели могут быть любыми, так наша цель — показать подходы к оценке. Вот какие модели мы использовали:
 
 Общего назначения:
-- [text-embedding-3-large (OpenAI)](https://platform.openai.com/docs/guides/embeddings#embedding-models)
-- [voyage-large-2 (VoyageAI)](https://blog.voyageai.com/2024/05/05/voyage-large-2-instruct-instruction-tuned-and-rank-1-on-mteb/) 
-- [gte-large-en-v1.5 (Alibaba)](https://huggingface.co/Alibaba-NLP/gte-large-en-v1.5)
-- [jina-embeddings-v3 (JinaAI)](https://huggingface.co/jinaai/jina-embeddings-v3)
-- [modernbert (HuggingFace)](https://huggingface.co/blog/modernbert)
+- [text-embedding-3-large от OpenAI](https://platform.openai.com/docs/guides/embeddings#embedding-models)
+- [voyage-large-2 от VoyageAI](https://blog.voyageai.com/2024/05/05/voyage-large-2-instruct-instruction-tuned-and-rank-1-on-mteb/) 
+- [gte-large-en-v1.5 от Alibaba](https://huggingface.co/Alibaba-NLP/gte-large-en-v1.5)
+- [jina-embeddings-v3 от JinaAI](https://huggingface.co/jinaai/jina-embeddings-v3)
+- [modernbert от HuggingFace](https://huggingface.co/blog/modernbert)
 
 Биологические:
 - [MedEmbed-small-v0.1](https://huggingface.co/abhinand/MedEmbed-small-v0.1)
 - [BioBERT-mnli-snli-scinli-scitail-mednli-stsb](https://huggingface.co/pritamdeka/BioBERT-mnli-snli-scinli-scitail-mednli-stsb)
 
-Оба автора работают в фармацевтической индустрии, поэтому для анализа мы используем медицинские термины и тексты из этой области. Но представленные подходы универсальны и легко адаптируются под задачи любого домена — будь то финтех, legaltech, e-com или любая другая отрасль.
+Оба автора работают в фармацевтической индустрии, поэтому для анализа мы используем медицинские термины и тексты из этой области. Но представленные подходы универсальны и легко адаптируются под задачи любого домена — будь то финтех, legaltech, e-commerce или любая другая отрасль.
 
 Итак, приступим!
 
