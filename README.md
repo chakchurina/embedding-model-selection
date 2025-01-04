@@ -1,6 +1,4 @@
-## Available languages
-- [en](README.md)
-- [ru](README.ru.md)
+[![Русский](https://img.shields.io/badge/lang-%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-blue)](README.ru.md)
 
 # Как выбрать embedding модель без датасета и исторических данных
 
