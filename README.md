@@ -1,6 +1,6 @@
 [![ru](https://img.shields.io/badge/lang-ru-blue)](README.ru.md)
 
-# Choosing an Embedding Model Without a Dataset or Historical Data
+# Choosing an Embedding Model with No Data
 
 ## Introduction
 
@@ -65,42 +65,43 @@ To evaluate vector embeddings, you can use:
 
 Let’s discuss each of these sources.
 
-WIP
-
 ### Benchmarks
 
-Benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard) provide standardized tools for evaluating embedding models. However, MTEB tests models on various tasks,classification, clustering, text generation—and doesn’t specifically focus on vector search. As a result, top-ranking models on MTEB may not perform well in your particular use case.
+Benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard) provide standardized tools for evaluating embedding models. However, MTEB tests models on various tasks, like classification, clustering, text generation, and doesn’t specifically focus on vector search. As a result, top-ranking models on MTEB may not perform well in your particular use case.
 
-Альтернативный вариант — [BEIR](https://eval.ai/web/challenges/challenge-page/1897/leaderboard/4475), платформа для оценки моделей в information retrieval. Она включает набор датасетов для оценки разных моделей поиска (необязательно основанных на эмбеддингах) в реальных сценариях.
+An alternative is [BEIR](https://eval.ai/web/challenges/challenge-page/1897/leaderboard/4475), a platform for evaluating models in information retrieval. BEIR includes datasets for assessing different search models (not necessarily vector-based) in real-world scenarios.
 
-Но если заглянуть в [список датасетов BEIR](https://github.com/beir-cellar/beir), то становится ясно, что большинство из них ориентировано на:
-- Медицинские темы,
-- Задачам question answering.
+However, if you check out the [BEIR dataset list](https://github.com/beir-cellar/beir), you'll notice that most datasets are geared toward:
+- Medical topics,
+- Question answering tasks.
 
-Мы работаем в фармацевтической индустрии и для нас это отличная отправная точка. Но если ваша область, например, e-comerce, BEIR оказывается не так релевантен. 
+Since we work in the pharmaceutical industry, this is a great starting point. But if your field is, say, legaltech, BEIR might not be as relevant.
 
-Таким образом, BEIR, как и MTEB, помогают в выборе моделей-кандидатов, но окончательное решение потребует дальнейшей оценки.
+So, while BEIR and MTEB can help shortlist candidate models, the final decision still requires further evaluation.
 
-### Ручная разметка
+### Manual Annotation
 
-Ручная разметка — самый дорогой и трудозатратный метод. Он требует времени, денег и регулярного обновления данных, если ваша поисковая система должна адаптироваться к изменениям.
+Manual annotation is the most expensive and time-consuming method. It requires time, money, and continuous updates if your search system needs to adapt to evolving data.
 
-Разметка должна соответствовать вашим задачам. Например, для оценки качества поиска может потребоваться разметить пары запрос-документ с указанием степени их релевантности. Количество необходимых данных при этом зависит от сложности задачи. А также важно учитывать редкие кейсы, которые могут быть недостаточно представлены в выборке.
+The labeling should align with your objectives. For example, assessing search quality might involve tagging query-document pairs with relevance scores. The amount of required data depends on task complexity, and it’s crucial to account for rare edge cases that might be underrepresented in your dataset.
 
-Если у вас уже есть подходящие данные — используйте их. Если нет, и разметка кажется непомерно дорогой, имеет смысл рассмотреть альтернативные подходы к оценке.
+If you already have relevant data, make use of it. f annotation costs are unreasonably high, exploring alternative evaluation approaches might be a good idea.
 
-### Пользовательская история
+### User History
 
-Анализ исторических данных о взаимодействии пользователей с поисковой выдачей может дать полезные сигналы для оценки качества поиска. Например, в e-commerce можно анализировать клики и покупки, связанные с различными запросами. В фармацевтике это могут быть данные об интересе пользователей к определённым препаратам или исследованиям.
+Analyzing past user interactions with search results can provide valuable signals for search quality assessment. In e-commerce, this might include clicks and purchases linked to different queries. In pharma, it could be user interest in specific drugs or research topics.
 
-Но у этого подхода есть ограничения:
-1. Вовлечённость ≠ релевантность. Вовлеченные пользователи могут взаимодействовать с нерелевантными результатами (например, с кликбейтами). Или наоборот, выдача может быть релевантной, а вовлечение низким, например, если поиск отработал правильно, но пользователи игнорируют корректную выдачу.
-2. Шумы в данных. Например, если нужный товар находится на второй странице, но человек случайно её пропустил, то эти данные не будут учтены в выборке, что исказит картину.
-3. Редкие запросы и пустая выдача. Для редких запросов или тех, по которым база не содержит документов, собрать достаточное количество данных на её основе невозможно.
+However, this approach has limitations:
 
-Эти факторы приводят к появлению шума в данных и повышают риск усиления существующих bias-ов модели, а не их устранения. Поэтому формировать такую выборку вслепую нельзя: нужно быть очень, очень внимательным к данным.
+1. Engagement ≠ Relevance. Engaged users may interact with irrelevant results (e.g., clickbait). Conversely, highly relevant results may see low engagement, perhaps because the search worked perfectly, but users ignored the correct answers.
+2. Noisy Data. For example, if a relevant item appears on the second page but the user accidentally skips it, the data won’t reflect its relevance, skewing the evaluation.
+4. Rare Queries and Empty Results. For rare queries or cases where the database lacks relevant documents, it’s impossible to gather enough data for fair assessment.
 
-В то же время, на старте проекта пользовательской истории может не быть вовсе. В таких ситуациях особенно важно опираться на методы оценки, не зависящие от данных.
+These factors introduce noise and increase the risk of reinforcing existing model biases rather than mitigating them. Blindly relying on user history can be dangerous, such data has to be handled with extreme caution.
+
+At the same time, early-stage projects may have no user history at all. In such cases, it’s especially important to use evaluation methods that don’t depend on large datasets.
+
+WIP
 
 ## Что такое идеальный эмбеддинг?
 
