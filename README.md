@@ -55,7 +55,7 @@ we could apply standard quantitative [метрики качества поиск
 
 But in the real world, the data needed to evaluate these metrics is often missing. So, let’s explore how we can obtain it.
 
-## Where to Get Data?
+## Finding Data for Assessment
 
 To evaluate vector embeddings, you can use:
 
