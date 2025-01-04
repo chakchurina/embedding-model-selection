@@ -1,4 +1,4 @@
-[![en](https://img.shields.io/badge/lang-en-blue)](README.ru.md)
+[![en](https://img.shields.io/badge/lang-en-blue)](README.en.md)
 
 # Как выбрать embedding модель без датасета и исторических данных
 
