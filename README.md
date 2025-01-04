@@ -1,70 +1,75 @@
 [![ru](https://img.shields.io/badge/lang-ru-blue)](README.ru.md)
 
-# Как выбрать embedding модель без датасета и исторических данных
+# Choosing an Embedding Model Without a Dataset or Historical Data
 
-## Введение
+## Introduction
 
-С появлением больших языковых моделей тема векторного поиска обрела новое дыхание. Компании, которые хотят внедрить архитектуру Retrieval-Augmented Generation (RAG), сталкиваются с вопросом: как выбрать эмбеддинги, которые будут работать эффективно именно с их данными?
+With the rise of large language models, vector search has gained new momentum. Teams that implement a Retrieval-Augmented Generation (RAG) architecture face a question: how do you choose the embeddings that will work effectively with your data?
 
-Выбор эмбеддинг-модели — это стратегическое и долгосрочное решение, так как оно определяет качество поиска и производительность системы. Но этот выбор особенно сложно сделать на ранних этапах развития вашего проекта, когда данных для принятия информированного решения ещё нет. При этом замена модели в будущем может оказаться дорогостоящей и ресурсозатратной.
+Selecting an embedding model is a strategic, long-term decision, since it directly impacts search quality and system performance. But making this choice is particularly challenging in the early stages of a project when there isn't enough data to make an informed decision. And switching models later can be costly and resource-intensive.
 
-На первый взгляд, решение принять несложно — заходим на какой-нибудь популярный бенчмарк и берем модель с топа. Но успех на лидерборде не гарантирует аналогичных результатов в специфичных доменах, таких как финансы, медицина или e-commerce. Без датасета выбор модели становится проблемой.
+The solution seems simple: just check out a popular benchmark and pick a top-ranking model. But success on a leaderboard doesn’t guarantee strong performance in specialized domains like finance, healthcare, or e-commerce. Without a dataset, picking a suitable model becomes a real challenge.
 
-В этой статье мы представим несколько подходов к качественной оценке эмбеддинг-моделей, которые можно применить даже в отсутствие данных. Мы рассмотрим некоторые аспекты поведения векторных представлений, которые помогут сделать выбор с опорой на специфику вашего проекта.
+In this article, we explore several approaches for evaluating embedding models even when the data is scarce. We examine aspects of vector embeddings behaviour that can guide your choice based on your project’s unique needs.
 
-Мы фокусируемся на качественных методах оценки, так как в реальных условиях возможности провести стандартные количественные эксперименты часто нет. Когда у проекта нет собственного датасета, пользовательской истории или ресурсов для ручной разметки, нужно искать альтернативные способы анализа.
+We focus on qualitative evaluation methods because, in real-world scenarios, running standard quantitative experiments isn’t always feasible. When a project lacks its golden dataset, user history, or resources for manual labeling, alternative approaches are necessary.
 
-Для примера мы выберем несколько лидирующих на дату написания статьи эмбеддинг-моделей с топа MTEB и покажем, какими параметрами векторных представлений (кроме места на лидерборде) можно поинтересоваться, чтобы не принимать такое важное и долгосрочное решение вслепую. При выборе моделей для этой статьи мы руководствовались следующими критериями:
+As an example, we analyze several leading embedding models from the MTEB leaderboard (as of this article’s writing) and demonstrate which vector representation properties—beyond leaderboard ranking—are worth considering to make an informed decision. The models for this article were selected based on the following criteria:
 
-- Размер модели: мы избегаем больших языковых моделей и выбираем компактные, которые проще внедрить в продакшн.
-- Лицензия: мы отдавали предпочтение моделям с открытыми лицензиями, такими как Apache 2.0.
-- Размерность векторов: чтобы сбалансировать качество и производительность, мы выбирали модели с размерностью векторов до 3000 измерений.
+- Model size: We avoid large language models and opt for compact ones that are easier to deploy in production.
+- License: Preference is given to models with open licenses, such as Apache 2.0.
+- Vector dimensionality: To balance quality and performance, we focus on models with vector sizes up to 3,000 dimensions.
 
-На самом деле выбор конкретных моделей не принципиален, так как наша цель — показать подходы к их оценке. Вот какие модели мы использовали:
+The specific models we chose aren’t the point. Our goal is to demonstrate evaluation techniques. Here’s what we used:
 
-Общего назначения:
-- [text-embedding-3-large от OpenAI](https://platform.openai.com/docs/guides/embeddings#embedding-models)
-- [voyage-large-2 от VoyageAI](https://blog.voyageai.com/2024/05/05/voyage-large-2-instruct-instruction-tuned-and-rank-1-on-mteb/) 
-- [gte-large-en-v1.5 от Alibaba](https://huggingface.co/Alibaba-NLP/gte-large-en-v1.5)
-- [jina-embeddings-v3 от JinaAI](https://huggingface.co/jinaai/jina-embeddings-v3)
-- [modernbert от HuggingFace](https://huggingface.co/blog/modernbert)
+General-purpose models:
+- [text-embedding-3-large by OpenAI](https://platform.openai.com/docs/guides/embeddings#embedding-models)
+- [voyage-large-2 by VoyageAI](https://blog.voyageai.com/2024/05/05/voyage-large-2-instruct-instruction-tuned-and-rank-1-on-mteb/) 
+- [gte-large-en-v1.5 by Alibaba](https://huggingface.co/Alibaba-NLP/gte-large-en-v1.5)
+- [jina-embeddings-v3 by JinaAI](https://huggingface.co/jinaai/jina-embeddings-v3)
+- [modernbert by HuggingFace](https://huggingface.co/blog/modernbert)
 
-Биологические:
+Biomedical models:
 - [MedEmbed-small-v0.1](https://huggingface.co/abhinand/MedEmbed-small-v0.1)
 - [BioBERT-mnli-snli-scinli-scitail-mednli-stsb](https://huggingface.co/pritamdeka/BioBERT-mnli-snli-scinli-scitail-mednli-stsb)
 
-Оба автора работают в фарме, поэтому для анализа мы используем медицинские термины и тексты. Но представленные подходы универсальны и легко адаптируются под задачи любого домена — будь то финтех, legaltech, e-commerce или любая другая отрасль.
+Both authors work in the pharmaceutical industry, so we use medical terms and texts for analysis. However, the evaluation methods presented here are universal and can be adapted to any domains: fintech, legaltech, e-commerce, or other industries.
 
-Итак, приступим!
+Let’s dive in!
 
-## Стандартный подход к оценке качества поиска
+## Standard Approach to Search Quality Evaluation
 
-Векторный поиск, как правило, делается следующим образом:
-1. Эмбеддинг-модель используется для создания векторных представлений документов базы,
-2. Запрос пользователя преобразуется в вектор с использованием той же модели,
-3. Представление запроса сравнивается с представлениями документов,
-4. Формируется ранжированный список наиболее релевантных документов.
+Vector search typically follows these steps:
 
-В идеальной ситуации, если у нас есть
-- набор документов $D$,
-- набор запросов $Q$,
-- и метки релевантности запросов к документам $(q, d)$ из $Q \times D$,
-можно было бы применить стандартные количественные [метрики качества поиска](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)), такие как Precision@k, Recall@k, NDCG@k или MAP.
+1. An embedding model generates vector representations for documents in a database.
+2. A user query is converted into a vector using the same model.
+3. The query vector is compared to document vectors.
+4. A ranked list of the most relevant documents is returned.
 
-В реальном мире данные для расчёта таких метрик часто отсутствуют. Давайте подумаем, как их можно получить.
+In an ideal scenario, if we have
 
-## Где взять данные? 
+- a set of documents $D$,,
+- a set of queries $Q$,
+- and relevance labels mapping queries to documents $(q, d) \in Q \times D$,
+we could apply standard quantitative [метрики качества поиска](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)), such as Precision@k, Recall@k, NDCG@k, or MAP.
 
-Для оценки векторных представлений можно использовать
-- Бенчмарки,
-- Ручную разметку,
-- Пользовательскую историю.
+But in the real world, the data needed to evaluate these metrics is often missing. So, let’s explore how we can obtain it.
 
-Давайте рассмотрим каждый из этих источников по отдельности.
+## Where to Get Data?
 
-### Бенчмарки
+To evaluate vector embeddings, you can use:
 
-Бенчмарки, такие как [MTEB](https://huggingface.co/spaces/mteb/leaderboard), предоставляют универсальные инструменты для оценки эмбеддинг-моделей. Но MTEB тестирует качество моделей на разных задачах: классификации, кластеризации, генерации текста, — и не фокусируется на векторном поиске. Поэтому топовые модели на MTEB могут не показать хороших результатов в ваших сценариях.
+- Benchmarks,
+- Manual annotation,
+- User history.
+
+Let’s discuss each of these sources.
+
+WIP
+
+### Benchmarks
+
+Benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard) provide standardized tools for evaluating embedding models. However, MTEB tests models on various tasks,classification, clustering, text generation—and doesn’t specifically focus on vector search. As a result, top-ranking models on MTEB may not perform well in your particular use case.
 
 Альтернативный вариант — [BEIR](https://eval.ai/web/challenges/challenge-page/1897/leaderboard/4475), платформа для оценки моделей в information retrieval. Она включает набор датасетов для оценки разных моделей поиска (необязательно основанных на эмбеддингах) в реальных сценариях.
 
