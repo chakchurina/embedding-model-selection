@@ -142,37 +142,35 @@ The results are visualized in the heatmaps below, where color intensity represen
 
 ![image](https://github.com/user-attachments/assets/b9e23cb6-8019-414a-8b50-440ed96b8a22)
 
-WIP
-
-**OpenAI (text-embedding-3-large):** Диагональ чётко выделена на фоне низких значений для запросов, относящихся к разным парам. Модель уверенно различает схожие запросы внутри пар и практически исключает высокие скоры для несвязанных запросов. Это может быть полезно в задачах, где важно минимизировать пересечения между несвязанными запросами.
+**OpenAI (text-embedding-3-large):** The diagonal is clearly distinguished against the low values for queries from different pairs. The model confidently differentiates similar queries within pairs and almost entirely eliminates high scores for unrelated queries. This property is particularly valuable in applications where reducing false positives and ensuring distinct query separation is critical.
 
 ![image](https://github.com/user-attachments/assets/75637540-93c8-4fc5-a786-3d489404704d)
 
-**Voyage (voyage-large-2):** Диагональ выделена плохо, это означает, что модель показывает слабую способность различать схожие и несхожие запросы, при этом несвязанные запросы в паре мест показывают близость как на диагонали.
+**Voyage (voyage-large-2):** The diagonal is poorly defined, indicating a weaker ability to differentiate between semantically similar and dissimilar queries. In some cases, unrelated queries exhibit high similarity, suggesting that the model struggles with fine-grained query discrimination.
 
 ![image](https://github.com/user-attachments/assets/d325921f-c2da-496a-8c2b-017d4bfda2ca)
 
-**Alibaba (gte-large-en-v1.5):** Диагональ выделена лучше, чем у Voyage, но с пропусками. Контраст с фоном показывает, что модель различает запросы, но не так четко, как OpenAI. Модель может подойти для задач, где важно улавливать семантические различия, но строгое разделение не является приоритетом.
+**Alibaba (gte-large-en-v1.5):** The diagonal is more distinct compared to Voyage but has inconsistencies. The contrast against the background suggests the model can separate queries to some extent, though not as precisely as OpenAI. This model may be suitable for tasks where semantic flexibility is preferred over strict query separation.
 
 ![image](https://github.com/user-attachments/assets/9312c8d9-7e89-4ee6-94af-072b5a80ce2f)
 
-**Jina (jina-embeddings-v3):** Диагональ отлично выделена, по контрастности напоминает OpenAI, видно, что модель отлично справилась с разделением тестовых запросов.
+**Jina (jina-embeddings-v3):** The diagonal is highly pronounced, closely resembling OpenAI's results. This suggests the model effectively separates semantically distinct queries while maintaining high similarity scores for synonymous ones.
 
 ![image](https://github.com/user-attachments/assets/70a6af89-ee52-4123-9695-e83707cd5886)
 
-**BioBERT и MedEmbed:** Оба специализированных медицинских эмбеддинга показывают неплохие результаты. BioBERT более контрастно разделяет запросы, а MedEmbed — мягче. 
+**BioBERT и MedEmbed:** Both domain-specific models perform reasonably well. BioBERT demonstrates sharper query separation, whereas MedEmbed produces softer distinction.
 
-Обе модели, похоже, не справились с обработкой сокращений, например, в четвертой паре 
+However, both models seem to struggle with abbreviations, as seen in the fourth query pair:
 - _"Managing PNH via IVH control."_ 
 - и _"Addressing paroxysmal nocturnal hemoglobinuria through the regulation of intravascular hemolysis."_
 
-Это может ограничивать их применение в задачах, где важна корректная работа с аббревиатурами.
+This may impact their usability in applications where accurate handling of abbreviations is essential.
 
 ![image](https://github.com/user-attachments/assets/e2876e1c-600f-4606-acbd-1dbcc283c637)
 
-**ModernBERT:** Ваша модель может проявлять себя как любая из предыдущих, в зависимости от того, требуется ли вам хорошее разделение запросов в рамках одного домена или более мягкое. Но она точно не должна выглядеть как ModernBERT: диагональ здесь отсутствует, что указывает на неспособность модели различать схожие запросы в рамках одного домена.
+**ModernBERT:** A model can behave similar to any of the previously analyzed ones, depending on whether strict or more relaxed query separation is required. However, results should not look like ModernBERT: the lack of a visible diagonal suggests an inability to distinguish similar queries within the same domain.
 
-Выбор между моделями зависит от задач. Например, если требуется строгое разделение запросов, подходящей будет модель от OpenAI. Для более мягкого разделения можно рассмотреть Voyage или Alibaba. Главное, чтобы модель не вела себя как ModernBERT в приведённой визуализации, где все запросы выглядят одинаково релевантными.
+The choice of model depends on the application. If strict query separation is required, OpenAI’s model is a strong candidate. For a more flexible approach, Voyage or Alibaba may be considered. The key takeaway is that the model should not behave like ModernBERT in the given visualization, where all queries appear equally relevant.
 
 ### Как эмбеддинги запросов и документов работают вместе
 
