@@ -101,21 +101,22 @@ These factors introduce noise and increase the risk of reinforcing existing mode
 
 At the same time, early-stage projects may have no user history at all. In such cases, it’s especially important to use evaluation methods that don’t depend on large datasets.
 
-## Что такое идеальный эмбеддинг?
+## What Makes an Ideal Embedding?
 
-Давайте подумаем, что мы ждем от эмбеддингов в задаче поиска? Как должна себя вести идеальная модель?
+What should we expect from embeddings in search task? How should an ideal model behave?
 
-Для подобных задач часто используют two-tower approach, который учитывает:
-- поиск релевантных документов по запросу (соответствие *запрос → документ*), чтобы выдача максимально точно отвечала запросу,
-- персонализацию документов для пользователей (соответствие *документ → пользователь*), чтобы выдача учитывали историю покупок и предпочтения пользователей.
+A common approach for such tasks is the two-tower architecture, which considers:
+- Query-to-document matching – ensuring search results accurately reflect the query intent.
+- Document-to-user matching – personalizing results based on user history and preferences.
 
-Исходя из этого, важно оценивать, как модель формирует эмбеддинги запросов, эмбеддинги документов и как они взаимодействуют между собой. Дополнительно стоит проверить, насколько устойчива модель к опечаткам, которые неизбежны в запросах. А также, как хорошо она справляется с терминами вашего домена. 
+Given this, it's essential to evaluate how well a model generates query embeddings, document embeddings, and how effectively they interact. Additionally, it might be interesting to check the model's robustness to typos, which are inevitable in real-world queries, and how well it handles domain-specific terminology.
 
-Таким образом, мы выделили четыре аспекта, которые помогут оценить пригодность эмбеддингов для векторного поиска в вашем проекте:
-- Эмбеддинги запросов: насколько точно модель векторизует типичные для вашего проекта запросы.
-- Взаимодействие запросов и документов: эффективно ли эмбеддинги запросов и документов работают вместе.
-- Устойчивость к опечаткам: обеспечивает ли модель качественный поиск при наличии ошибок в запросах.
-- Работа с терминами: хорошо ли векторные представления отражают специфичную терминологию вашей предметной области.
+Based on this, here are four key aspects for assessing embedding models for vector search:
+
+- Query embeddings – How accurately does the model vectorize typical queries in your domain?
+- Query-document interaction – Do query and document embeddings work well together?
+- Robustness to typos – Can the model still retrieve relevant results despite user input errors?
+- Handling domain-specific terms – Do vector representations effectively capture industry-specific terminology?
 
 ## Оценка эмбеддинг-моделей
 
