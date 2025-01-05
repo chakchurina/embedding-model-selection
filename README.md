@@ -118,27 +118,31 @@ Based on this, here are four key aspects for assessing embedding models for vect
 - Robustness to typos – Can the model still retrieve relevant results despite user input errors?
 - Handling domain-specific terms – Do vector representations effectively capture industry-specific terminology?
 
-## Оценка эмбеддинг-моделей
+## Embedding Models Evaluation
 
-### Эмбеддинги запросов
+### Query Embeddings
 
-Для эффективного поиска эмбеддинги запросов должны отражать их семантическую близость. Основная гипотеза: схожие запросы должны быть представлены близкими векторами, то есть, 
+For effective search, query embeddings should capture semantic similarity. The core assumption is that embedding space should position similar queries close to each other:
 
-*схожие запросы = близкие векторы*.
+*similar queries → close vectors*.
 
-Чтобы проверить это, мы сформировали 9 пар семантически близких запросов, характерных для медицинской области. В медицине это могут не только идентичные по смыслу запросы, сформулированные разными словами, но и названия одного и того же вещества под разными торговыми марками, или термины, упомянутые в сокращении и без. Вот примеры некоторых пар:
+To test this, we created nine pairs of semantically close queries relevant to the medical field. In medicine, this doesn’t just mean different phrasings of the same question but also branded vs. generic drug names and abbreviations vs. full terms. Here are a few examples:
 
-- "Сonnection between LDH markers and persistent exhaustion" ↔ "How are lactate dehydrogenase levels and chronic fatigue related?"
-- "What published data is available for impact on daily activities with anti-C5 therapy?" ↔ "Is there evidence on how C5i impacts patients' ability to perform daily tasks?"
-- "Managing PNH via IVH control." ↔ "Addressing paroxysmal nocturnal hemoglobinuria through the regulation of intravascular hemolysis."
+- _"Connection between LDH markers and persistent exhaustion"_ ↔ _"How are lactate dehydrogenase levels and chronic fatigue related?"_
+- _"What published data is available for impact on daily activities with anti-C5 therapy?"_ ↔ _"Is there evidence on how C5i impacts patients' ability to perform daily tasks?"_
+- _"Managing PNH via IVH control."_ ↔ _"Addressing paroxysmal nocturnal hemoglobinuria through the regulation of intravascular hemolysis."_
 
-Важно, что запросы внутри каждой пары близки по смыслу, но пары между собой различаются.
+Each pair contains queries with similar meaning, but different pairs represent distinct topics.
 
-Преобразуем каждый запрос в векторное представление и вычислим попарные косинусные расстояния между всеми векторами. Поскольку запросы внутри пар похожи по смыслу, а между парами отличаются друг от друга, мы хотели бы, чтобы модель также различала их: расстояния между векторами внутри пар должны быть меньше, чем между векторами, относящихся к разным парам. 
+We converted each query into a vector and calculated pairwise cosine distances between all embeddings. Since queries within the same pair should be close in meaning and queries from different pairs should be distinct, we expect the model to reflect this pattern:
+- Lower distances for queries within the same pair,
+- Higher distances for queries across different pairs.
 
-Результаты визуализированы на тепловых картах ниже, где интенсивность цвета указывает на степень близости между запросами. На диагонали отображаются значения для синонимичных запросов, а вне диагонали — для запросов из разных пар.
+The results are visualized in the heatmaps below, where color intensity represents similarity. The diagonal reflects synonymous queries, while off-diagonal values show unrelated queries.
 
 ![image](https://github.com/user-attachments/assets/b9e23cb6-8019-414a-8b50-440ed96b8a22)
+
+WIP
 
 **OpenAI (text-embedding-3-large):** Диагональ чётко выделена на фоне низких значений для запросов, относящихся к разным парам. Модель уверенно различает схожие запросы внутри пар и практически исключает высокие скоры для несвязанных запросов. Это может быть полезно в задачах, где важно минимизировать пересечения между несвязанными запросами.
 
