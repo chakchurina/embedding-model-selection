@@ -51,7 +51,7 @@ In an ideal scenario, if we have
 - a set of documents $D$,,
 - a set of queries $Q$,
 - and relevance labels mapping queries to documents $(q, d) \in Q \times D$,
-we could apply standard quantitative [метрики качества поиска](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)), such as Precision@k, Recall@k, NDCG@k, or MAP.
+we could apply standard quantitative [retrieval metrics](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)), such as Precision@k, Recall@k, NDCG@k, or MAP.
 
 But in the real world, the data needed to evaluate these metrics is often missing. So, let’s explore how we can obtain it.
 
@@ -218,9 +218,7 @@ The distributions above show the similarity scores of documents to the category 
     
 6. **MedEmbed**: The model’s ability to separate categories is weaker, with average similarity scores of ~0.7 for _Gestational diabetes_ and ~0.6 for _LADA_. The distinction between categories is less pronounced compared to BioBERT, suggesting lower confidence in semantic differentiation.
     
-7. **ModernBERT**: Модель ведёт себя неадекватно: тексты категории _Gestational diabetes_ имеют среднюю близость к _LADA_ выше, чем к «своему» названию категории. Средняя близость к _LADA_ превышает 0.8, тогда как к _Gestational diabetes_ она составляет около 0.7. Такое поведение говорит о том, что модель не способна корректно различать категории.
-
-The model behaves incorrectly. Documents from _Gestational diabetes_ have a higher average similarity to _LADA_ than to their own category. The average similarity to LADA exceeds 0.8, while to Gestational diabetes it is only ~0.7. This suggests that the model fails to correctly distinguish categories.
+7. **ModernBERT**: The model behaves incorrectly. Documents from _Gestational diabetes_ have a higher average similarity to _LADA_ than to their own category. The average similarity to LADA exceeds 0.8, while to Gestational diabetes it is only ~0.7. This suggests that the model fails to correctly distinguish categories.
 
 So,  
 - the selected models from Voyage, MedEmbed, and ModernBERT demonstrated insufficient ability to correctly differentiate categories in this test,  
@@ -228,11 +226,11 @@ So,
 
 Additionally, visualizing similarity distributions helps assess the similarity values that each model assigns to domain-specific texts. These insights can be used to fine-tune threshold values for retrieval tasks, balancing recall and precision in search applications.
 
-### Устойчивость к опечаткам
+### Robustness to Typos
 
-Эмбеддинги иногда воспринимают как универсальный инструмент, позволяющий системе «понимать» пользователя, но на практике толерантность к опечаткам зависит от  данных, на которых обучали модель, и от метода токенизации. Поскольку пользователи неизбежно допускают ошибки, важно оценить, как модель реагирует на них.
+Embeddings are often perceived as a universal tool that allows a system to "understand" user intent. However, in practice, tolerance to typos heavily depends on the training data and tokenization strategy. Since users inevitably make mistakes, it's interesting to see how well a model handles them.
 
-Мы сформировали список из 12 медицинских терминов с различными типами ошибок:
+We constructed a list of 12 medical terms, each modified with different types of errors:
 
 - willebrand disease → **x**illebrand disease
 - ozempik → **0**zempik
@@ -247,15 +245,19 @@ Additionally, visualizing similarity distributions helps assess the similarity v
 - therapy → ther**p**ay
 - cyst → cy**s**
 
-Такой список можно создать на основе логов пользовательских запросов с настоящими опечатками, вручную, или сгенерировать (например, с помощью библиотеки [typo](https://pypi.org/project/typo/)). Лучше, чтобы в наборе были представлены ошибки разных типов, например, 
-- замена буквы на близкую в раскладке, 
-- пропуски, 
-- перестановки символов, 
-при этому лучше, если ошибки будут встречаться в разных частях слов (в начале, в середине, в конце). Такой подход позволяет проверить модель в условиях, приближенных к реальным.
+This kind of list can be generated from system logs, using real-world typos, manually, by introducing common spelling mistakes or automatically, using tools like [typo](https://pypi.org/project/typo/) package.
+
+To ensure a comprehensive evaluation, the dataset should include different types of errors, such as:
+
+- Character substitutions (e.g., replacing a letter with a nearby key on the keyboard).
+- Missing characters,
+- Swapped characters.
+
+Errors should appear at different positions within words: at the beginning, middle, and end, to better simulate real-world user mistakes. This approach allows for a more realistic assessment of the model's performance under noisy input conditions.
 
 ![image](https://github.com/user-attachments/assets/3f4c1553-b5c8-4594-bdfc-3bd211e8e9b5)
 
-Для оценки толерантности к опечаткам мы сравнили косинусное сходство между векторами оригинальных медицинских терминов и их модифицированных версий с различными типами ошибок. На основе результатов построили тепловую карту для каждой модели.
+To evaluate typo tolerance, we measured the cosine similarity between the embeddings of original medical terms and their misspelled versions across various error types. Based on these results, we generated a heatmap all models.
 
 1. **OpenAI** показывает стабильные результаты для большинства терминов, включая случаи "patient → aptient" (0.45) и "therapy → therpay" (0.71), которые смогли «смутить» остальные модели. Хотя значения сходства могут быть ниже, чем у других моделей, это не значит, что она не справилась. По прошлому тесту среднее сходство для релевантных документов у OpenAI было около 0.45, и так как все скоры выше среднего значения, говорит о том, что модель не считает опечатки полностью идентичными, но при этом способна находить правильную форму слова.
     
@@ -274,8 +276,6 @@ Additionally, visualizing similarity distributions helps assess the similarity v
 Анализ устойчивости к опечаткам показывает, насколько по-разному модели справляются с пользовательскими ошибками. Такая оценка помогает лучше понять, как модель взаимодействует с некорректными данными и насколько надёжно она будет работать в реальных сценариях. Например, **Alibaba**, **Jina** и **BioBERT**, которые показали уверенные результаты на предыдущих тестах, продемонстрировали слабые результаты в этом анализе. Это подчеркивает важность комплексного подхода к выбору модели: одна и та же модель может быть сильной в одних задачах и уязвимой в других.
 
 todo: дополнительно можно обратить внимание на токенизацию, так как она определяет, как модель обрабатывает ошибочные слова. Сравните, как наши модели токенизируют слова с опечатками и без.
-
-### Работа с доменными терминами
 
 ### Работа с доменными терминами
 
