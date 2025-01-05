@@ -172,60 +172,61 @@ This may impact their usability in applications where accurate handling of abbre
 
 The choice of model depends on the application. If strict query separation is required, OpenAI’s model is a strong candidate. For a more flexible approach, Voyage or Alibaba may be considered. The key takeaway is that the model should not behave like ModernBERT in the given visualization, where all queries appear equally relevant.
 
-### Как эмбеддинги запросов и документов работают вместе
+### How Query and Document Embeddings Work Together
 
-Эмбеддинги запросов и товаров должны хорошо взаимодействовать, чтобы обеспечивать точные результаты поиска. Для того, чтобы оценить это взаимодействие, нам понадобятся метаданные: какая-нибудь иерархия категорий, таксономия или граф знаний.
+Query and document embeddings must interact in a way that ensures accurate retrieval. To evaluate this interaction, we will need some metadata, such as category hierarchies, taxonomies, or knowledge graphs.
 
-В биомедицинских данных можно ориентироваться на MeSH (Medical Subject Headings) — иерархическую систему медицинских терминов. В e-com такую иерархию можно позаимствовать из каталога товаров, а в hr-tech — из перечней профессий. В других областях таксономией могут служить теги, жанры, или другие классификации.
+In biomedical data, we can use MeSH (Medical Subject Headings), a hierarchical system of medical terms. In e-commerce, a similar structure can be derived from product catalogs, in HR-tech, it may come from job title classifications. In other domains, tags, genres, or other classification schemes can serve as taxonomies.
 
-Вот как выглядят [MeSH terms](https://meshb.nlm.nih.gov/treeView) в медицине
+Here's what [MeSH terms](https://meshb.nlm.nih.gov/treeView) look like
 
 ![image](https://github.com/user-attachments/assets/c10365b4-8be7-4cf2-9f3d-004806d27d0e)
 
-Для демонстрации мы использовали аннотации научных статей за последние пять лет, относящиеся к термину MeSH _Diabetes, Gestational [C19.246.200]_ — гестационный диабет, который развивается у женщин во время беременности и обычно исчезает после родов. 
+For this test, we used annotations of biomedical research papers from the last five years, specifically those classified under the MeSH term _Diabetes, Gestational [C19.246.200]_ — a type of diabetes that develops during pregnancy and typically resolves after childbirth.
 
-В качестве соседней группы мы взяли _Latent Autoimmune Diabetes in Adults [C19.246.656]_ (сокращенно LADA) — медленно прогрессирующий аутоиммунный тип диабета, диагностируемый в зрелом возрасте. Для категории LADA мы взяли только название категории, без текстов. 
+As a neighboring category, we selected _Latent Autoimmune Diabetes in Adults [C19.246.656]_ (LADA) —  a slow-progressing autoimmune form of diabetes diagnosed in adulthood. For LADA, we only used the category title without associated texts.
 
-В среднем один токен составляет примерно ¾ слова (то есть, 100 токенов ≈ 75 слов). Поэтому мы исключили из выборки аннотации длиной более 600 слов (оставив небольшой запас), чтобы избежать необходимости чанкинга, поскольку не все выбранные для анализа модели могут работать с длинными текстовыми последовательностями.
+Since an average token consists of approximately ¾ of a word (i.e., 100 tokens ≈ 75 words), we excluded annotations longer than 600 words to avoid chunking, as not all models tested support long text sequences.
 
-Таким образом, для анализа мы выбрали аннотации статей из PubMed, посвящённые двум формам диабета, схожим по клинической картине, но различным по этиологии. 
+So, for analysis, we selected PubMed papers annotations corresponding to two clinically similar diabetes types that differ in etiology.
 
 ![image](https://github.com/user-attachments/assets/a0686398-9492-4d9f-a9cc-6a725f1affe4)
 
-Логика этого теста следующая: если два документа принадлежат одной и той же категории, то они должны быть ближе к названию «своей» категории, чем к названию соседней. 
+The test follows this logic: if two documents belong to the same category, their embeddings should be closer to their own category title than to the title of the neighboring one.
 
-Мы рассчитываем близость текстов документов из одной категории (например, _Diabetes, Gestational_) к:
-1. Названию своей категории, например, "Gestational diabetes".
-2. Названию соседней категории, например, "Latent autoimmune diabetes in adults".
+To quantify this, we measure the similarity of document embeddings (например, _Diabetes, Gestational_) with:
+1. The title of their own category (e.g., "Gestational diabetes").
+2. The title of the neighboring category (e.g., "Latent autoimmune diabetes in adults").
 
-Эта проверка позволяет понять:
-- Видит ли модель разницу между документами из своей категории и из соседней.
-- Насколько минимальные, максимальные и средние значения близости текстов к своим и соседним категориям различаются.
+This evaluation helps assess:
+- Whether the model differentiates between documents from distinct but related categories.
+- How much variation exists in similarity scores, what are minimum, maximum, and average similarity to both categories.
 
 ![image](https://github.com/user-attachments/assets/10c7aa10-7926-40ae-90bb-f83d6a13227f)
 
-На графиках представлены распределения близостей текстов к названиям двух категорий: _Gestational diabetes_ и _LADA_, рассчитанные для разных моделей. Визуализация позволяет сделать следующие наблюдения:
+The distributions above show the similarity scores of documents to the category titles _Gestational diabetes_ and _LADA_,  for different embedding models.
 
-1. **OpenAI**: Средняя близость текстов к своей категории (_Gestational diabetes_) составляет около 0.45, тогда как к соседней категории (_LADA_) — около 0.3. Это указывает на хорошее различение модели между категориями, при этом для модели в целом не характерны высокие значения близости.
+1. **OpenAI**: The average similarity of documents to their own category (Gestational diabetes) is ~0.45, while similarity to the neighboring category (LADA) is ~0.3. This indicates good category separation, with generally moderate similarity values.
     
-2. **Voyage**: Для этой модели характерны более высокие значения семантической близости — средние значения для обеих категорий около 0.8. Хотя модель хорошо различает документы, распределения перекрываются и это может создавать проблемы в сценариях, требующих строгого разделения.
+2. **Voyage**: This model produces higher similarity scores overall—with an average of ~0.8 for both categories. While it correctly differentiates documents, overlapping distributions could pose challenges in scenarios requiring strict separation.
     
-3. **Alibaba**: Модель уверенно различает категории: средняя близость текстов к _Gestational diabetes_ составляет почти 0.8, тогда как к _LADA_ — чуть меньше 0.6. Такое поведение делает Alibaba подходящим выбором для задач, где требуется уверенное различение между схожими, но различными по смыслу текстами.
+3. **Alibaba**: This model clearly distinguishes the categories, with an average similarity of ~0.8 for Gestational diabetes and just under 0.6 for _LADA_. This behavior makes Alibaba suitable for tasks requiring robust separation of semantically similar but distinct texts.
     
-4. **Jina**: Результаты модели схожи с Alibaba: модель хорошо разделяет категории,  при этом распределения более широкие, а разница между средней близостью к своей категории и к соседней заметная. Средние значения для своей категории выше, чем для нерелевантной, что подтверждает способность модели различать документы.
+4. **Jina**: The results resemble Alibaba’s—the model separates categories well, though distributions are broader. The gap between the average similarity to the relevant category vs. the unrelated one suggests strong differentiation.
+
+5. **BioBERT**: Documents show an average similarity of ~0.5 to _Gestational diabetes_ and ~0.3 to _LADA_, meaning the model correctly distinguishes categories. The model doesn't produces high similarity scores, and irrelevant documents tend to have very low values, which is consistent with its specialization in biomedical text processing.
     
-5. **BioBERT**: Средняя близость текстов к своей категории (_Gestational diabetes_) составляет около 0.5, тогда как к нерелевантной (_LADA_) — около 0.3, что демонстрирует способность модели различать категории. Также видно, что модель в целом не выдает высоких значений близости, а среди нерелевантных текстов минимальные значения опускаются очень низко, что соответствует ее специализации на биомедицинском домене.
-    
-6. **MedEmbed**: Модель не слишком уверенно разделение категории, со средними значениями около 0.7 для своей категории (_Gestational diabetes_) и 0.6 для соседней (_LADA_). Однако различие между категориями не так выражено, как, например, у BioBERT, что может свидетельствовать о меньшей уверенности модели в оценке семантической релевантности.
+6. **MedEmbed**: The model’s ability to separate categories is weaker, with average similarity scores of ~0.7 for _Gestational diabetes_ and ~0.6 for _LADA_. The distinction between categories is less pronounced compared to BioBERT, suggesting lower confidence in semantic differentiation.
     
 7. **ModernBERT**: Модель ведёт себя неадекватно: тексты категории _Gestational diabetes_ имеют среднюю близость к _LADA_ выше, чем к «своему» названию категории. Средняя близость к _LADA_ превышает 0.8, тогда как к _Gestational diabetes_ она составляет около 0.7. Такое поведение говорит о том, что модель не способна корректно различать категории.
 
-На основании этих визуализаий можно сделать следующие выводы. Модели Voyage, MedEmbed и ModernBERT показали недостаточную способность корректно различать категории в данном тесте: 
-- У Voyage наблюдается сильное перекрытие распределений,
-- MedEmbed также не очень хорошо различает категории, 
-- ModernBERT же показала некорректное поведение, оценивая тексты нерелевантной категории (_LADA_) выше, чем релевантной (_Gestational diabetes_).
+The model behaves incorrectly. Documents from _Gestational diabetes_ have a higher average similarity to _LADA_ than to their own category. The average similarity to LADA exceeds 0.8, while to Gestational diabetes it is only ~0.7. This suggests that the model fails to correctly distinguish categories.
 
-Также визуализация распределений позволяет оценить средние значения близостей, характерные для каждой модели. Это даёт понимание, насколько высоко модель может оценивать типичные для вашего проекта тексты. Эти данные помогут выбрать подходящие пороговые значения для фильтрации документов в retrieval-задачах, чтобы достичь баланса между полнотой и точностью поиска.
+So,  
+- the selected models from Voyage, MedEmbed, and ModernBERT demonstrated insufficient ability to correctly differentiate categories in this test,  
+- while the OpenAI, Alibaba, Jina, and BioBERT models performed well.
+
+Additionally, visualizing similarity distributions helps assess the similarity values that each model assigns to domain-specific texts. These insights can be used to fine-tune threshold values for retrieval tasks, balancing recall and precision in search applications.
 
 ### Устойчивость к опечаткам
 
