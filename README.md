@@ -277,7 +277,7 @@ todo: consider examining tokenization differences, as tokenization plays a key r
 
 When evaluating embedding quality in a specialized field, it is crucial to understand how well a model processes domain-specific terminology. If a model fails in this specific context and does not associate terms with their synonyms or related concepts, it can lead to a loss of relevant information in retrieval tasks. To assess how well models handle domain-specific terms, we follow these steps:
 
-1. Curate a set of specialized medical terms (medications, therapeutic agents, diseases, etc), including both well-known and rare terms. For example:
+1. Curate a set of specialized medical terms, including both well-known and rare ones (medications, therapeutic agents, diseases, etc). Our list:
     - lncRNA — long non-coding RNAs with gene regulatory functions.  
     - BBB disruption therapy — method of temporarily disrupting the blood-brain barrier to deliver drugs to brain tissue.
     - Ozempic — drug for treating Type 2 diabetes and weight management. 
