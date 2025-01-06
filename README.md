@@ -278,18 +278,18 @@ todo: consider examining tokenization differences, as tokenization plays a key r
 When evaluating embedding quality in a specialized field, it is crucial to understand how well a model processes domain-specific terminology. If a model fails in this specific context and does not associate terms with their synonyms or related concepts, it can lead to a loss of relevant information in retrieval tasks. To assess how well models handle domain-specific terms, we follow these steps:
 
 1. Curate a set of specialized medical terms, including both well-known and rare ones (medications, therapeutic agents, diseases, etc). Our list:
-    - lncRNA — long non-coding RNAs with gene regulatory functions.  
-    - BBB disruption therapy — method of temporarily disrupting the blood-brain barrier to deliver drugs to brain tissue.
-    - Ozempic — drug for treating Type 2 diabetes and weight management. 
-    - Antisense oligonucleotide — short synthetic DNA or RNA used in therapy for genetic diseases and cancer.
-    - PD-L1 mAbs — monoclonal antibodies that help the immune system recognize and destroy cancer cells.  
-    - Kabuki syndrome — rare genetic disorder.  
-    - Waldenström Macroglobulinemia — rare type of non-Hodgkin lymphoma.  
-    - Frey syndrome — condition causing facial sweating when eating.  
-    - Metformin — medication for Type 2 diabetes treatment (brand name Glucophage).   
-    - Cladribine — drug for treating multiple sclerosis.  
-    - Zolgensma — gene therapy for spinal muscular atrophy.  
-    - ReoPro — drug preventing blood clotting during vascular surgeries.
+    - _lncRNA_ — long non-coding RNAs with gene regulatory functions.  
+    - _BBB disruption therapy_ — method of temporarily disrupting the blood-brain barrier to deliver drugs to brain tissue.
+    - _Ozempic_ — drug for treating Type 2 diabetes and weight management. 
+    - _Antisense oligonucleotide_ — short synthetic DNA or RNA used in therapy for genetic diseases and cancer.
+    - _PD-L1 mAbs_ — monoclonal antibodies that help the immune system recognize and destroy cancer cells.  
+    - _Kabuki syndrome_ — rare genetic disorder.  
+    - _Waldenström Macroglobulinemia_ — rare type of non-Hodgkin lymphoma.  
+    - _Frey syndrome_ — condition causing facial sweating when eating.  
+    - _Metformin_ — medication for Type 2 diabetes treatment (brand name Glucophage).   
+    - _Cladribine_ — drug for treating multiple sclerosis.  
+    - _Zolgensma_ — gene therapy for spinal muscular atrophy.  
+    - _ReoPro_ — drug preventing blood clotting during vascular surgeries.
 2. Convert these terms into embedding vectors using the models under evaluation.
 3. Compare the resulting vectors against a reference dataset (e.g., WordNet) to determine the nearest semantic neighbors and evaluate whether the model "understands" domain-specific terms.
 
