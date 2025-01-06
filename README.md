@@ -194,7 +194,7 @@ So, for analysis, we selected PubMed papers annotations corresponding to two cli
 
 The test follows this logic: if two documents belong to the same category, their embeddings should be closer to their own category title than to the title of the neighboring one.
 
-To quantify this, we measure the similarity of document embeddings (например, _Diabetes, Gestational_) with:
+To quantify this, we measure the similarity of document embeddings (eg., _Diabetes, Gestational_) with:
 1. The title of their own category (e.g., "Gestational diabetes").
 2. The title of the neighboring category (e.g., "Latent autoimmune diabetes in adults").
 
@@ -336,7 +336,7 @@ Using this approach, we once accidentally discovered the following anomalies in 
 
 This technique serves as a sanity check for large-scale datasets, providing insights into model behavior while helping improve data quality. And honestly? It’s just fun!
 
-## Вывод
+## Conclusion
 
 The methods presented in this article provide a deeper understanding of an embedding model’s strengths and weaknesses. These approaches are not only easy to implement but also straightforward to communicate to business stakeholders and clients. They offer insights into embedding models, even if a fully labeled test dataset is unavailable.
 
