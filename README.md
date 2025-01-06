@@ -77,7 +77,7 @@ However, if you check out the [BEIR dataset list](https://github.com/beir-cellar
 
 Since we work in the pharmaceutical industry, this is a great starting point. But if your field is, say, legaltech, BEIR might not be as relevant.
 
-So, while BEIR and MTEB can help shortlist candidate models, the final decision still requires further evaluation.
+Thus, while BEIR and MTEB can help shortlist candidate models, the final decision still requires further evaluation.
 
 ### Manual Annotation
 
@@ -220,10 +220,6 @@ The distributions above show the similarity scores of documents to the category 
     
 7. **ModernBERT**: The model behaves incorrectly. Documents from _Gestational diabetes_ have a higher average similarity to _LADA_ than to their own category. The average similarity to LADA exceeds 0.8, while to Gestational diabetes it is only ~0.7. This suggests that the model fails to correctly distinguish categories.
 
-So,  
-- the selected models from Voyage, MedEmbed, and ModernBERT demonstrated insufficient ability to correctly differentiate categories in this test,  
-- while the OpenAI, Alibaba, Jina, and BioBERT models performed well.
-
 Additionally, visualizing similarity distributions helps assess the similarity values that each model assigns to domain-specific texts. These insights can be used to fine-tune threshold values for retrieval tasks, balancing recall and precision in search applications.
 
 ### Robustness to Typos
@@ -275,11 +271,11 @@ To evaluate typo tolerance, we measured the cosine similarity between the embedd
 
 This analysis shows how differently models handle user input errors. Understanding typo tolerance is crucial for assessing how a model processes noisy data and how reliably it performs in real-world search scenarios. This highlights the importance of a holistic model selection approach, since a model that excels in one aspect may appear vulnerable in another.
 
-todo: дополнительно можно обратить внимание на токенизацию, так как она определяет, как модель обрабатывает ошибочные слова. Сравните, как наши модели токенизируют слова с опечатками и без.
+todo: consider examining tokenization differences, as tokenization plays a key role in how models process misspelled words.
 
-### Работа с доменными терминами
+### Handling Domain-Specific Terms
 
-Для оценки качества эмбеддингов в специализированной области важно понять, насколько корректно модель обрабатывает термины предметной области. Если модель не распознаёт контекст и не связывает термины с их синонимами или близкими понятиями, это может привести к потере релевантной информации. Для качественной оценки того, как модель работает с терминами, сделаем следующее: 
+When evaluating embedding quality in a specialized field, it is crucial to understand how well a model processes domain-specific terminology. If a model fails in this specific context and does not associate terms with their synonyms or related concepts, it can lead to a loss of relevant information in retrieval tasks. To assess how well models handle domain-specific terms, we follow these steps:
 
 1. Соберем набор специализированных терминов из медицинской области, включая как общеизвестные термины, так и редкие. Например:
     - _Metformin_ — популярный препарат для лечения диабета.
@@ -288,7 +284,16 @@ todo: дополнительно можно обратить внимание н
 2. Преобразуем их в эмбеддинг-векторы, используя модели, участвующие в анализе.
 3. Сравним полученные векторы с векторами из какого-нибудь доступного словаря (например, WordNet), чтобы определить ближайшие по смыслу слова и таким образом увидеть, «понимает» ли модель термины нашего домена.
 
-Если ближайшие к термину векторы представляют синонимы, связанные концепции или термины из той же области, это говорит о том, что модель корректно улавливает контекст. Например, если к «РНК» модель относит слова «геном» или «рибосома», это указывает на её способность корректно работать с этим термином. Если же модель выберет из словаря слоги или не связанные с медициной слова, это сигнализирует о проблемах в работе модели с терминами.
+
+1. Curate a set of specialized medical terms (medications, therapeutic agents, diseases, etc), including both well-known and rare terms. For example:
+- _Metformin_ — a widely used drug for diabetes treatment.
+- _Waldenström Macroglobulinemia_ — a rare type of lymphoma.
+- _lncRNA_ — long non-coding RNAs involved in gene regulation.
+- _Zolgensma_ — a brand name for gene therapy used to treat spinal muscular atrophy.	
+2. Convert these terms into embedding vectors using the models under evaluation.
+3. Compare the resulting vectors against a reference dataset (e.g., WordNet) to determine the nearest semantic neighbors and evaluate whether the model "understands" domain-specific terms.
+
+If the nearest vectors correspond to synonyms, related concepts, or terms from the same field, it indicates that the model correctly captures context. For example, if "RNA" is associated with "genome" or "ribosome," this suggests that the model accurately understands the term. However, if the model associates medical terms with random syllables or unrelated words, it signals weaknesses in handling specialized vocabulary.
 
 Ниже результаты для разных моделей:
 
@@ -305,11 +310,13 @@ todo: дополнительно можно обратить внимание н
 | **Zolgensma**                     | zoloft, lofortyx, vincristine                     | zetland, zinzendorf, nijmegen                        | zeugma, zygnema, genus_zygnema                     | zola, zymogen, zolaesque                           | ziziphus, zola, zetland                          | zeugma, glechoma, zygoma                             | schmaltz, spotweld, zinfandel                  |
 | **ReoPro**                        | lipo-hepin, thrombolytic_agent, plavix            | pro, re, ream                                        | appro, reechoing, recopy                           | pro, recco, ro                                     | reproval, retem, reamer                          | requital, reenact, reproof                           | galactocele, rectocele, proviso                |
 
-Таблица показывает, что не все модели хорошо обрабатывают медицинские термины. 
+The table below demonstrates that not all models handle medical terms effectively.
 
-**OpenAI** продемонстрировала отличные результаты. Она единственная корректно связала термин **BBB disruption therapy** с _blood-brain_barrier_ из WordNet. Термин **PD-L1 mAbs** правильно ассоциировала с _cancer_drug_, отражая связь с лекарствами от рака. Точно обработала **Frey syndrome**, связав его с _hyperhidrosis_, что соответствует клиническому проявлению этого синдрома. Также успешно определила кластер лекарств для **Ozempic**, связав его другими медикаментами для лечения диабета второго типа. Модель не справилась с терминами **Zolgensma** и **ReoPro**, но сохранила ассоциацию с медицинским контекстом.
+1. **OpenAI** performed exceptionally well. For instance, it was the only model that correctly linked term "BBB disruption therapy" to "blood-brain barrier" in WordNet. It also properly associated "PD-L1 mAbs" with cancer drug, capturing its relevance to oncology treatments. For "Frey syndrome", it identified "hyperhidrosis", which matches the syndrome’s clinical manifestation. It also correctly clustered medications related to "Ozempic", grouping it with other type 2 diabetes treatments. However, the model struggled with "Zolgensma" and "ReoPro", though it still retained a general medical context in its associations.
 
-**Voyage** продемонстрировала средние результаты. Для **BBB disruption therapy** модель зацепилась за слово _therapy_, но не смогла вытащить релевантное значение. Для **Frey syndrome** она извлекла лишь общие термины со словом «синдром», не учитывая специфики. В **PD-L1 mAbs** модель правильно распознала сокращение, но не ассоциировала его механизмом действия или назначением. Для **Ozempic** и **ReoPro** модель не смогла выделить ничего значимого, вытащив токены, такие как _otic_, _zocor_, _ream_. В целом, Voyage справляется, но обрабатывает медицинские термины поверхностно.
+WIP
+
+3. **Voyage** продемонстрировала средние результаты. Для **BBB disruption therapy** модель зацепилась за слово _therapy_, но не смогла вытащить релевантное значение. Для **Frey syndrome** она извлекла лишь общие термины со словом «синдром», не учитывая специфики. В **PD-L1 mAbs** модель правильно распознала сокращение, но не ассоциировала его механизмом действия или назначением. Для **Ozempic** и **ReoPro** модель не смогла выделить ничего значимого, вытащив токены, такие как _otic_, _zocor_, _ream_. В целом, Voyage справляется, но обрабатывает медицинские термины поверхностно.
 
 **Alibaba** проявила себя неоднородно. Например, она ассоциировала **BBB disruption therapy** с психотерапевтическими терминами (_implosion_therapy_), что является ошибкой. С **Antisense oligonucleotide** модель справилась неплохо, распознав молекулярные компоненты, и с **Waldenström Macroglobulinemia** — определив её как опухоль. Однако с **Ozempic** модель не смогла выдать полезные ассоциации, предложив термины из другого домена. **Zolgensma** также осталась для неё загадкой, так как среди ближайших слов оказались _zeugma_ и _zygnema_, не связанные с медициной.
 
