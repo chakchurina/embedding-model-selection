@@ -282,8 +282,6 @@ When evaluating embedding quality in a specialized field, it is crucial to under
     - BBB disruption therapy — method of temporarily disrupting the blood-brain barrier to deliver drugs to brain tissue.
     - Ozempic — drug for treating Type 2 diabetes and weight management. 
     - Antisense oligonucleotide — short synthetic DNA or RNA used in therapy for genetic diseases and cancer.
-<details>
-  <summary>Show more</summary>
     - PD-L1 mAbs — monoclonal antibodies that help the immune system recognize and destroy cancer cells.  
     - Kabuki syndrome — rare genetic disorder.  
     - Waldenström Macroglobulinemia — rare type of non-Hodgkin lymphoma.  
@@ -292,7 +290,6 @@ When evaluating embedding quality in a specialized field, it is crucial to under
     - Cladribine — drug for treating multiple sclerosis.  
     - Zolgensma — gene therapy for spinal muscular atrophy.  
     - ReoPro — drug preventing blood clotting during vascular surgeries.
-</details>
 2. Convert these terms into embedding vectors using the models under evaluation.
 3. Compare the resulting vectors against a reference dataset (e.g., WordNet) to determine the nearest semantic neighbors and evaluate whether the model "understands" domain-specific terms.
 
