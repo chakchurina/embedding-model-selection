@@ -278,10 +278,21 @@ todo: consider examining tokenization differences, as tokenization plays a key r
 When evaluating embedding quality in a specialized field, it is crucial to understand how well a model processes domain-specific terminology. If a model fails in this specific context and does not associate terms with their synonyms or related concepts, it can lead to a loss of relevant information in retrieval tasks. To assess how well models handle domain-specific terms, we follow these steps:
 
 1. Curate a set of specialized medical terms (medications, therapeutic agents, diseases, etc), including both well-known and rare terms. For example:
-- _Metformin_ — a widely used drug for diabetes treatment.
-- _Waldenström Macroglobulinemia_ — a rare type of lymphoma.
-- _lncRNA_ — long non-coding RNAs involved in gene regulation.
-- _Zolgensma_ — a brand name for gene therapy used to treat spinal muscular atrophy.	
+    - lncRNA — long non-coding RNAs with gene regulatory functions.  
+    - BBB disruption therapy — method of temporarily disrupting the blood-brain barrier to deliver drugs to brain tissue.
+    - Ozempic — drug for treating Type 2 diabetes and weight management. 
+    - Antisense oligonucleotide — short synthetic DNA or RNA used in therapy for genetic diseases and cancer.
+<details>
+  <summary>Show more</summary>
+    - PD-L1 mAbs — monoclonal antibodies that help the immune system recognize and destroy cancer cells.  
+    - Kabuki syndrome — rare genetic disorder.  
+    - Waldenström Macroglobulinemia — rare type of non-Hodgkin lymphoma.  
+    - Frey syndrome — condition causing facial sweating when eating.  
+    - Metformin — medication for Type 2 diabetes treatment (brand name Glucophage).   
+    - Cladribine — drug for treating multiple sclerosis.  
+    - Zolgensma — gene therapy for spinal muscular atrophy.  
+    - ReoPro — drug preventing blood clotting during vascular surgeries.
+</details>
 2. Convert these terms into embedding vectors using the models under evaluation.
 3. Compare the resulting vectors against a reference dataset (e.g., WordNet) to determine the nearest semantic neighbors and evaluate whether the model "understands" domain-specific terms.
 
