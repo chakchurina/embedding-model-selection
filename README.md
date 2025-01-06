@@ -277,14 +277,6 @@ todo: consider examining tokenization differences, as tokenization plays a key r
 
 When evaluating embedding quality in a specialized field, it is crucial to understand how well a model processes domain-specific terminology. If a model fails in this specific context and does not associate terms with their synonyms or related concepts, it can lead to a loss of relevant information in retrieval tasks. To assess how well models handle domain-specific terms, we follow these steps:
 
-1. Соберем набор специализированных терминов из медицинской области, включая как общеизвестные термины, так и редкие. Например:
-    - _Metformin_ — популярный препарат для лечения диабета.
-    - _Waldenström Macroglobulinemia_ — редкая форма лимфомы.
-    - _lncRNA_ — длинные некодирующие РНК, связанные с регуляцией генов.
-2. Преобразуем их в эмбеддинг-векторы, используя модели, участвующие в анализе.
-3. Сравним полученные векторы с векторами из какого-нибудь доступного словаря (например, WordNet), чтобы определить ближайшие по смыслу слова и таким образом увидеть, «понимает» ли модель термины нашего домена.
-
-
 1. Curate a set of specialized medical terms (medications, therapeutic agents, diseases, etc), including both well-known and rare terms. For example:
 - _Metformin_ — a widely used drug for diabetes treatment.
 - _Waldenström Macroglobulinemia_ — a rare type of lymphoma.
@@ -295,7 +287,7 @@ When evaluating embedding quality in a specialized field, it is crucial to under
 
 If the nearest vectors correspond to synonyms, related concepts, or terms from the same field, it indicates that the model correctly captures context. For example, if "RNA" is associated with "genome" or "ribosome," this suggests that the model accurately understands the term. However, if the model associates medical terms with random syllables or unrelated words, it signals weaknesses in handling specialized vocabulary.
 
-Ниже результаты для разных моделей:
+The table below demonstrates that not all models handle medical terms effectively.
 
 | **Термин**                        | **OpenAI**                                        | **Voyage**                                           | **Alibaba**                                        | **Jina**                                           | **BioBERT**                                      | **MedEmbed**                                         | **ModernBERT**                                 |
 | --------------------------------- | ------------------------------------------------- | ---------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------ | ---------------------------------------------------- | ---------------------------------------------- |
@@ -309,8 +301,6 @@ If the nearest vectors correspond to synonyms, related concepts, or terms from t
 | **Cladribine**                    | chlorambucil, leukeran, mercaptopurine            | clonidine, chlorpromazine, clomipramine              | zalcitabine, lamivudine, deoxyadenosine            | cladrastis, clerid, clinid                         | cladonia, cladrastis, cladode                    | clad, cladode, zalcitabine                           | cladoniaceae, cladophyll, cicadellidae         |
 | **Zolgensma**                     | zoloft, lofortyx, vincristine                     | zetland, zinzendorf, nijmegen                        | zeugma, zygnema, genus_zygnema                     | zola, zymogen, zolaesque                           | ziziphus, zola, zetland                          | zeugma, glechoma, zygoma                             | schmaltz, spotweld, zinfandel                  |
 | **ReoPro**                        | lipo-hepin, thrombolytic_agent, plavix            | pro, re, ream                                        | appro, reechoing, recopy                           | pro, recco, ro                                     | reproval, retem, reamer                          | requital, reenact, reproof                           | galactocele, rectocele, proviso                |
-
-The table below demonstrates that not all models handle medical terms effectively.
 
 1. **OpenAI (text-embedding-3-large)** performed exceptionally well. For instance, it was the only model that correctly linked term "BBB disruption therapy" to "blood-brain barrier" in WordNet. It also properly associated "PD-L1 mAbs" with cancer drug, capturing its relevance to oncology treatments. For "Frey syndrome", it identified "hyperhidrosis", which matches the syndrome’s clinical manifestation. It also correctly clustered medications related to "Ozempic", grouping it with other type 2 diabetes treatments. However, the model struggled with "Zolgensma" and "ReoPro", though it still retained a general medical context in its associations.
 
@@ -330,36 +320,37 @@ The analysis of domain-specific terms reveals significant variation in model per
 
 An ideal model should capture context accurately, associate terms with their synonyms and conceptually related words to nsure high-quality retrieval in specialized fields. However, even the best models have limitations: new or rare terms absent in training data will not be recognized. In such cases, a hybrid approach combining embeddings with full-text search can enhance system performance and improve search accuracy.
 
-## Бонус трек: поиск выбросов 
+## Bonus Track: Outlier Detection
 
-Если вы дочитали до этого места, то это бонус-трек:) 
+If you've made it this far, here's a bonus track!
 
-Что модель считает «противоположностью» вашему запросу? Если у вас уже есть работающая поисковая система, попробуйте вместо top-n документов запросить те, которые находятся в самом конце списка по косинусному сходству .
+What does your model consider the "opposite" of your query? If you already have a working search system, try retrieving the least relevant documents based on cosine similarity instead of the top-n results.
 
-Это позволит увидеть, какие данные модель считает минимально релевантными. Если эмбеддинги работают корректно, вы можете обнаружить выбросы — документы, которые сильно отличаются от остальных. Возможно, такие данные не должны были попасть в базу или нуждаются в отдельной обработке.
+This technique helps identify what the model deems minimally relevant, which can reveal outliers, documents that significantly differ from the rest. Such data points may require further investigation or additional preprocessing to ensure they belong in your index.
 
-Таким способом мы случайно обнаружили на одном из проектов в базе медицинских текстов:
-- документы на японском, 
-- презентацию с корпоративных мероприятий,
-- описание случайного ресторана в Португалии.
+Using this approach, we once accidentally discovered the following anomalies in a medical text database:
 
-Это своеобразный sanity check на больших объемах данных, который может не только дать вам представление о поведении модели, но и помочь почистить данные. К тому же, это весело!
+- Documents written in Japanese,
+- Corporate presentation slides,
+- A random Portuguese restaurant description.
+
+This technique serves as a sanity check for large-scale datasets, providing insights into model behavior while helping improve data quality. And honestly? It’s just fun!
 
 ## Вывод
 
-Представленные методы анализа эмбеддинг-моделей позволяют глубже понять их сильные и слабые стороны. Эти подходы не только просто реализовать, но и легко объяснить бизнесу или клиентам. Они помогают быстро получить ценные инсайты об эмбеддинг-моделях, даже если полноценный датасет для тестирования отсутствует.
+The methods presented in this article provide a deeper understanding of an embedding model’s strengths and weaknesses. These approaches are not only easy to implement but also straightforward to communicate to business stakeholders and clients. They offer insights into embedding models, even if a fully labeled test dataset is unavailable.
 
-Эти тесты также показывают, что как бы хороши не были ваши эмбеддинги, если ваш проект связан со сложным или быстро развивающимся доменом, то стоит рассмотреть гибридные подходы, которые включают и векторный, и полнотекстовый поиск. Полнотекстовый поиск может стать отличной опорой для работы с новыми или редко встречающимися терминами, которые ещё не попали в данные, на которых обучали модели.
+These tests also highlight a critical point: no matter how good your embeddings are, if your project operates in a complex or rapidly evolving domain, hybrid approaches should be considered. Combining vector search with full-text search can significantly enhance retrieval performance, especially for new or rare terms that haven’t appeared in the model’s training data.
 
-Методы, описанные в статье, показывают, что даже при ограниченных ресурсах можно сделать информированный выбор векторной модели для вашего проекта, чтобы оптимизировать вашу поисковую систему, делая их её более точной, устойчивой к ошибкам и удобной для пользователей.
+The techniques discussed here demonstrate that even with limited resources, you can make an informed choice when selecting an embedding model for your project. Optimizing your search system with the right embeddings can make it more accurate, robust, and user-friendly.
 
-Спасибо, что дочитали статью до конца! Если у вас есть вопросы или идеи, будем рады обсудить их в комментариях.
+Thank you for reading! If you have questions or ideas, feel free to share them in the comments—we’d love to discuss!
 
-Заглядывайте на наш [GitHub](https://chatgpt.com/c/6771b12c-248c-8001-a866-413704195300#): мы оставили там блокнот, который вы можете адаптировать для своих задач. Будем благодарны за звёздочки, пулл-реквесты и комментарии!
+Check out our [GitHub](https://chatgpt.com/c/6771b12c-248c-8001-a866-413704195300#): where we’ve shared a notebook that you can adapt to your own use cases. We appreciate stars, pull requests, and feedback!
 
-Если вашему бизнесу или команде нужна экспертиза в обработке текстов, пишите в LinkedIn [Марии](https://www.linkedin.com/in/maria-chakchurina/) или [Екатерине](https://www.linkedin.com/in/ekaterina-antonova-51108a67/) — обсудим ваши задачи и поможем с их решением. А еще подписывайтесь, чтобы не пропустить новые статьи!
+If your business or team needs expertise in text processing, reach out to [Maria](https://www.linkedin.com/in/maria-chakchurina/) or [Ekaterina](https://www.linkedin.com/in/ekaterina-antonova-51108a67/) on LinkedIn — we’d be happy to discuss your needs and help with solutions. Also, follow us so you don’t miss future articles!
 
-## Вдохновлено
+## Inspired by
 
 - [https://haystackconf.com/eu2023/talk-13/](https://haystackconf.com/eu2023/talk-13/)
 - https://haystackconf.com/eu2023/talk-7/ 
