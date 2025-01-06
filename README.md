@@ -206,13 +206,13 @@ This evaluation helps assess:
 
 The distributions above show the similarity scores of documents to the category titles _Gestational diabetes_ and _LADA_,  for different embedding models.
 
-1. **OpenAI**: The average similarity of documents to their own category (Gestational diabetes) is ~0.45, while similarity to the neighboring category (LADA) is ~0.3. This indicates good category separation, with generally moderate similarity values.
+1. **OpenAI (text-embedding-3-large)**: The average similarity of documents to their own category (Gestational diabetes) is ~0.45, while similarity to the neighboring category (LADA) is ~0.3. This indicates good category separation, with generally moderate similarity values.
     
-2. **Voyage**: This model produces higher similarity scores overall—with an average of ~0.8 for both categories. While it correctly differentiates documents, overlapping distributions could pose challenges in scenarios requiring strict separation.
+2. **Voyage (voyage-large-2)**: This model produces higher similarity scores overall—with an average of ~0.8 for both categories. While it correctly differentiates documents, overlapping distributions could pose challenges in scenarios requiring strict separation.
     
-3. **Alibaba**: This model clearly distinguishes the categories, with an average similarity of ~0.8 for Gestational diabetes and just under 0.6 for _LADA_. This behavior makes Alibaba suitable for tasks requiring robust separation of semantically similar but distinct texts.
+3. **Alibaba (gte-large-en-v1.5)**: This model clearly distinguishes the categories, with an average similarity of ~0.8 for Gestational diabetes and just under 0.6 for _LADA_. This behavior makes Alibaba suitable for tasks requiring robust separation of semantically similar but distinct texts.
     
-4. **Jina**: The results resemble Alibaba’s—the model separates categories well, though distributions are broader. The gap between the average similarity to the relevant category vs. the unrelated one suggests strong differentiation.
+4. **Jina (jina-embeddings-v3)**: The results resemble Alibaba’s—the model separates categories well, though distributions are broader. The gap between the average similarity to the relevant category vs. the unrelated one suggests strong differentiation.
 
 5. **BioBERT**: Documents show an average similarity of ~0.5 to _Gestational diabetes_ and ~0.3 to _LADA_, meaning the model correctly distinguishes categories. The model doesn't produces high similarity scores, and irrelevant documents tend to have very low values, which is consistent with its specialization in biomedical text processing.
     
