@@ -158,11 +158,11 @@ The results are visualized in the heatmaps below, where color intensity represen
 
 ![image](https://github.com/user-attachments/assets/70a6af89-ee52-4123-9695-e83707cd5886)
 
-**BioBERT и MedEmbed:** Both domain-specific models perform reasonably well. BioBERT demonstrates sharper query separation, whereas MedEmbed produces softer distinction.
+**BioBERT and MedEmbed:** Both domain-specific models perform reasonably well. BioBERT demonstrates sharper query separation, whereas MedEmbed produces softer distinction.
 
 However, both models seem to struggle with abbreviations, as seen in the fourth query pair:
 - _"Managing PNH via IVH control."_ 
-- и _"Addressing paroxysmal nocturnal hemoglobinuria through the regulation of intravascular hemolysis."_
+- and _"Addressing paroxysmal nocturnal hemoglobinuria through the regulation of intravascular hemolysis."_
 
 This may impact their usability in applications where accurate handling of abbreviations is essential.
 
@@ -297,7 +297,7 @@ If the nearest vectors correspond to synonyms, related concepts, or terms from t
 
 The table below demonstrates that not all models handle medical terms effectively.
 
-| **Термин**                        | **OpenAI**                                        | **Voyage**                                           | **Alibaba**                                        | **Jina**                                           | **BioBERT**                                      | **MedEmbed**                                         | **ModernBERT**                                 |
+| **Term**                        | **OpenAI**                                        | **Voyage**                                           | **Alibaba**                                        | **Jina**                                           | **BioBERT**                                      | **MedEmbed**                                         | **ModernBERT**                                 |
 | --------------------------------- | ------------------------------------------------- | ---------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------ | ---------------------------------------------------- | ---------------------------------------------- |
 | **lncRNA**                        | nrna, nuclear_rna, informational_rna              | nuclear_rna, mrna, rna                               | rna, informational_rna, mrna                       | nrna, rna, nrl                                     | lunda, livistona, liliales                       | rna, nuclear_rna, nrna                               | mycophage, chalcid, flecainide                 |
 | **BBB disruption therapy**        | blood-brain_barrier, thrombolytic_therapy, clot   | therapeutic, therapy, therapeutical                  | implosion_therapy, disrupt, therapeutical          | implosion_therapy, behavior_therapy, disruption    | bobsledding, bd, boding                          | disruption, bb, bbs                                  | feedlot, birthwort, bombastically              |
