@@ -354,11 +354,11 @@ The techniques discussed here demonstrate that even with limited resources, you 
 
 Thank you for reading! If you have questions or ideas, feel free to share them in the comments—we’d love to discuss!
 
-Check out our [GitHub](https://chatgpt.com/c/6771b12c-248c-8001-a866-413704195300#): where we’ve shared a notebook that you can adapt to your own use cases. We appreciate stars, pull requests, and feedback!
+Check out our [GitHub](https://github.com/chakchurina/embedding-model-selection/): where we’ve shared a notebook that you can adapt to your own use cases. We appreciate stars, pull requests, and feedback!
 
 If your business or team needs expertise in text processing, reach out to [Maria](https://www.linkedin.com/in/maria-chakchurina/) or [Ekaterina](https://www.linkedin.com/in/ekaterina-antonova-51108a67/) on LinkedIn — we’d be happy to discuss your needs and help with solutions. Also, follow us so you don’t miss future articles!
 
 ## Inspired by
 
-- [https://haystackconf.com/eu2023/talk-13/](https://haystackconf.com/eu2023/talk-13/)
+- https://haystackconf.com/eu2023/talk-13/
 - https://haystackconf.com/eu2023/talk-7/ 
