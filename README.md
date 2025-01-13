@@ -128,9 +128,8 @@ For effective search, query embeddings should capture semantic similarity. The c
 
 To test this, we created nine pairs of semantically close queries relevant to the medical field. In medicine, this doesn’t just mean different phrasings of the same question but also branded vs. generic drug names and abbreviations vs. full terms. Here are a few examples:
 
-- _"Connection between LDH markers and persistent exhaustion"_ ↔ _"How are lactate dehydrogenase levels and chronic fatigue related?"_
-- _"What published data is available for impact on daily activities with anti-C5 therapy?"_ ↔ _"Is there evidence on how C5i impacts patients' ability to perform daily tasks?"_
-- _"Managing PNH via IVH control."_ ↔ _"Addressing paroxysmal nocturnal hemoglobinuria through the regulation of intravascular hemolysis."_
+...
+
 
 Each pair contains queries with similar meaning, but different pairs represent distinct topics.
 

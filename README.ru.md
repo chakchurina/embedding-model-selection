@@ -123,9 +123,8 @@
 
 Чтобы проверить это, мы сформировали 9 пар семантически близких запросов, характерных для медицинской области. В медицине это могут не только идентичные по смыслу запросы, сформулированные разными словами, но и названия одного и того же вещества под разными торговыми марками, или термины, упомянутые в сокращении и без. Вот примеры некоторых пар:
 
-- "Сonnection between LDH markers and persistent exhaustion" ↔ "How are lactate dehydrogenase levels and chronic fatigue related?"
-- "What published data is available for impact on daily activities with anti-C5 therapy?" ↔ "Is there evidence on how C5i impacts patients' ability to perform daily tasks?"
-- "Managing PNH via IVH control." ↔ "Addressing paroxysmal nocturnal hemoglobinuria through the regulation of intravascular hemolysis."
+....
+
 
 Важно, что запросы внутри каждой пары близки по смыслу, но пары между собой различаются.
 
