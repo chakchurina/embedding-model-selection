@@ -335,11 +335,7 @@ What does your model consider the "opposite" of your query? If you already have 
 
 This technique helps identify what the model deems minimally relevant, which can reveal outliers, documents that significantly differ from the rest. Such data points may require further investigation or additional preprocessing to ensure they belong in your index.
 
-Using this approach, we once accidentally discovered the following anomalies in a medical text database:
 
-- Documents written in Japanese,
-- Corporate presentation slides,
-- A random Portuguese restaurant description.
 
 This technique serves as a sanity check for large-scale datasets, providing insights into model behavior while helping improve data quality. And honestly? It’s just fun!
 
