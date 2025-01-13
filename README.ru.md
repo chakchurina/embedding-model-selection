@@ -153,8 +153,9 @@
 **BioBERT и MedEmbed:** Оба специализированных медицинских эмбеддинга показывают неплохие результаты. BioBERT более контрастно разделяет запросы, а MedEmbed — мягче. 
 
 Обе модели, похоже, не справились с обработкой сокращений, например, в четвертой паре 
-- _"Managing PNH via IVH control."_ 
-- и _"Addressing paroxysmal nocturnal hemoglobinuria through the regulation of intravascular hemolysis."_
+
+...
+
 
 Это может ограничивать их применение в задачах, где важна корректная работа с аббревиатурами.
 

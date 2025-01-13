@@ -160,8 +160,8 @@ The results are visualized in the heatmaps below, where color intensity represen
 **BioBERT and MedEmbed:** Both domain-specific models perform reasonably well. BioBERT demonstrates sharper query separation, whereas MedEmbed produces softer distinction.
 
 However, both models seem to struggle with abbreviations, as seen in the fourth query pair:
-- _"Managing PNH via IVH control."_ 
-- and _"Addressing paroxysmal nocturnal hemoglobinuria through the regulation of intravascular hemolysis."_
+
+....
 
 This may impact their usability in applications where accurate handling of abbreviations is essential.
 
