@@ -85,7 +85,7 @@ Manual annotation is the most expensive and time-consuming method. It requires t
 
 The labeling should align with your objectives. For example, assessing search quality might involve tagging query-document pairs with relevance scores. The amount of required data depends on task complexity, and it’s crucial to account for rare edge cases that might be underrepresented in your dataset.
 
-If you already have relevant data, make use of it. f annotation costs are unreasonably high, exploring alternative evaluation approaches might be a good idea.
+If you already have relevant data, make use of it. But if annotation costs are unreasonably high, exploring alternative evaluation approaches might be a good idea.
 
 ### User History
 
