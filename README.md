@@ -10,15 +10,15 @@ Selecting an embedding model is a strategic, long-term decision, since it direct
 
 The solution seems simple: just check out a popular benchmark and pick a top-ranking model. But success on a leaderboard doesn’t guarantee strong performance in specialized domains like finance, healthcare, or e-commerce. Without a dataset, picking a suitable model becomes a real challenge.
 
-In this article, we explore several approaches for evaluating embedding models even when the data is scarce. We examine aspects of vector embeddings behaviour that can guide your choice based on your project’s unique needs.
+In this article, we explore several approaches for evaluating embedding models even when the data is scarce, particularly in domain-specific applications. We examine aspects of vector embeddings behaviour that can guide your choice based on your project’s unique needs.
 
-We focus on qualitative evaluation methods because, in real-world scenarios, running standard quantitative experiments isn’t always feasible. When a project lacks its golden dataset, user history, or resources for manual labeling, alternative approaches are necessary.
+This article focuses on qualitative evaluation methods for embeddings since, in real-world conditions, it is often impossible to conduct standard quantitative experiments. When a project lacks a golden dataset, user history, or resources for manual annotation, alternative assessment strategies are necessary.
 
-As an example, we analyze several leading embedding models from the MTEB leaderboard (as of this article’s writing) and demonstrate which vector representation properties—beyond leaderboard ranking—are worth considering to make an informed decision. The models for this article were selected based on the following criteria:
+As an example, we analyze several leading embedding models from the MTEB leaderboard (as of the time of writing) and demonstrate which embeddings properties—beyond leaderboard ranking—are worth considering to make an informed decision. The models for this article were selected based on the following criteria:
 
 - Model size: We avoid large language models and opt for compact ones that are easier to deploy in production.
-- License: Preference is given to models with open licenses, such as Apache 2.0.
 - Vector dimensionality: To balance quality and performance, we focus on models with vector sizes up to 3,000 dimensions.
+- Domain specificity: To test how well embeddings handle specialized terminology, we include several biomedical models in the evaluation.
 
 The specific models we chose aren’t the point. Our goal is to demonstrate evaluation techniques. Here’s what we used:
 
@@ -33,7 +33,9 @@ Biomedical models:
 - [MedEmbed-small-v0.1](https://huggingface.co/abhinand/MedEmbed-small-v0.1)
 - [BioBERT-mnli-snli-scinli-scitail-mednli-stsb](https://huggingface.co/pritamdeka/BioBERT-mnli-snli-scinli-scitail-mednli-stsb)
 
-Both authors work in the pharmaceutical industry, so we use medical terms and texts for analysis. However, the evaluation methods presented here are universal and can be adapted to any domains: fintech, legaltech, e-commerce, or other industries.
+We intentionally included ModernBERT, a base language model that has not been trained for sentence similarity tasks. Here it serves as a negative example, illustrating behaviour of  unsuitable model. By the way, kudos to the model’s creators—it is an impressive achievement.
+
+Both authors work in the biomedical data, so we use medical terms and texts for analysis. However, the evaluation methods presented here are universal and can be adapted for any specialized field: whether fintech, legaltech, e-commerce, or other industries.
 
 Let’s dive in!
 
