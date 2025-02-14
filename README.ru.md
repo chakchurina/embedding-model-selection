@@ -170,7 +170,7 @@
 
 ![image](https://github.com/user-attachments/assets/39f199ee-7e96-42e7-b2ad-d0b7a9e54cbd)
 
-**ModernBERT-gte (gte-modernbert-base):** todo.
+**ModernBERT-gte (gte-modernbert-base):** хорошо себя показывает в этом тесте: диагональ в целом хорошо различима, высоких скоров вне диагонали нет. Значения вне диагонали высокие относительно диагонали, то есть, модель мягко разделяет не синонимичные, но относящиеся к одной и той же области запросы.
 
 ![image](https://github.com/user-attachments/assets/baebc5b6-c21a-4400-bd1d-4ddd6a883dd0)
 
