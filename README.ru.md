@@ -127,16 +127,16 @@
 Чтобы проверить это, мы сформировали 9 пар семантически близких запросов, характерных для медицинской области. В медицине это могут не только идентичные по смыслу запросы, сформулированные разными словами, но и названия одного и того же вещества под разными торговыми марками, или термины, упомянутые в сокращении и без. Ниже приведены примеры некоторых пар.
 
 Здесь в одном запросе используется общепринятое медицинское сокращение, а во втором термин приведен полностью:
-*"PTT abnormalities in individuals with lupus anticoagulant"*  
-*"Partial thromboplastin time variations in patients with antiphospholipid syndrome"*
+- "PTT abnormalities in individuals with lupus anticoagulant"
+- "Partial thromboplastin time variations in patients with antiphospholipid syndrome"
 
 Здесь разница в том, что биологический термин использован в сокращении и без:
-*"Role of M1dG in oxidative DNA damage"*  
-*"Impact of malondialdehyde-deoxyguanine adducts on genomic stability"*
+- "Role of M1dG in oxidative DNA damage"
+- "Impact of malondialdehyde-deoxyguanine adducts on genomic stability"
 
 В этой паре использованы синонимы:
-*"Earwax removal is sometimes necessary when natural cleaning mechanisms fail."*  
-*"When cerumen does not clear on its own, medical intervention may be required."*
+- "Earwax removal is sometimes necessary when natural cleaning mechanisms fail"
+- "When cerumen does not clear on its own, medical intervention may be required"
 
 Важно, что запросы внутри каждой пары близки по смыслу, но пары между собой различаются.
 
@@ -144,34 +144,36 @@
 
 Результаты визуализированы на тепловых картах ниже, где интенсивность цвета указывает на степень близости между запросами. На диагонали отображаются значения для синонимичных запросов, а вне диагонали — для запросов из разных пар.
 
-![image](https://github.com/user-attachments/assets/b9e23cb6-8019-414a-8b50-440ed96b8a22)
+todo
 
-**OpenAI (text-embedding-3-large):** Диагональ чётко выделена на фоне низких значений для запросов, относящихся к разным парам. Модель уверенно различает схожие запросы внутри пар и практически исключает высокие скоры для несвязанных запросов. Это может быть полезно в задачах, где важно минимизировать пересечения между несвязанными запросами.
+**OpenAI (text-embedding-3-large):** Диагональ отлично выделена на фоне низких значений для запросов, относящихся к разным парам. Модель уверенно различает схожие запросы внутри пар и практически исключает высокие скоры для несвязанных запросов.
 
-![image](https://github.com/user-attachments/assets/75637540-93c8-4fc5-a786-3d489404704d)
+todo
 
-**Voyage (voyage-large-2):** Диагональ выделена плохо, это означает, что модель показывает слабую способность различать схожие и несхожие запросы, при этом несвязанные запросы в паре мест показывают близость как на диагонали.
+**Voyage (voyage-large-2):** Диагональ выделяется слабо, это означает, что модель показывает слабую способность различать схожие и несхожие запросы, при этом несвязанные запросы в паре мест показывают близость как на диагонали.
 
-![image](https://github.com/user-attachments/assets/d325921f-c2da-496a-8c2b-017d4bfda2ca)
+todo
 
 **Alibaba (gte-large-en-v1.5):** Диагональ выделена лучше, чем у Voyage, но с пропусками. Контраст с фоном показывает, что модель различает запросы, но не так четко, как OpenAI. Модель может подойти для задач, где важно улавливать семантические различия, но строгое разделение не является приоритетом.
 
-![image](https://github.com/user-attachments/assets/9312c8d9-7e89-4ee6-94af-072b5a80ce2f)
+todo
 
 **Jina (jina-embeddings-v3):** Диагональ отлично выделена, по контрастности напоминает OpenAI, видно, что модель отлично справилась с разделением тестовых запросов.
 
-![image](https://github.com/user-attachments/assets/70a6af89-ee52-4123-9695-e83707cd5886)
+todo
 
 **BioBERT и MedEmbed:** Оба специализированных медицинских эмбеддинга показывают неплохие результаты. BioBERT более контрастно разделяет запросы, а MedEmbed — мягче. 
 
 Обе модели, похоже, не справились с обработкой сокращений, например, в четвертой паре 
 
-...
+todo
 
 
 Это может ограничивать их применение в задачах, где важна корректная работа с аббревиатурами.
 
-![image](https://github.com/user-attachments/assets/e2876e1c-600f-4606-acbd-1dbcc283c637)
+todo
+
+**ModernBERT-gte (gte-modernbert-base):** todo.
 
 **ModernBERT:** Ваша модель может проявлять себя как любая из предыдущих, в зависимости от того, требуется ли вам хорошее разделение запросов в рамках одного домена или более мягкое. Но она точно не должна выглядеть как ModernBERT: диагональ здесь отсутствует, что указывает на неспособность модели различать схожие запросы в рамках одного домена.
 
