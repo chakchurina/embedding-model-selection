@@ -130,8 +130,17 @@ For effective search, query embeddings should capture semantic similarity. The c
 
 To test this, we created nine pairs of semantically close queries relevant to the medical field. In medicine, this doesn’t just mean different phrasings of the same question but also branded vs. generic drug names and abbreviations vs. full terms. Here are a few examples:
 
-...
+In this pair, one query uses a standard medical abbreviation, while the other presents the full term:
+- "PTT abnormalities in individuals with lupus anticoagulant"
+- "Partial thromboplastin time variations in patients with antiphospholipid syndrome"
 
+Here, the difference is whether a biological term is abbreviated or fully written out:
+- "Role of M1dG in oxidative DNA damage"
+- "Impact of malondialdehyde-deoxyguanine adducts on genomic stability"
+
+This pair demonstrates synonyms in use:
+- "Earwax removal is sometimes necessary when natural cleaning mechanisms fail."
+- "When cerumen does not clear on its own, medical intervention may be required."
 
 Each pair contains queries with similar meaning, but different pairs represent distinct topics.
 
