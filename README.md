@@ -166,15 +166,9 @@ The results are visualized in the heatmaps below, where color intensity represen
 
 **Jina (jina-embeddings-v3):** The diagonal is highly pronounced, closely resembling OpenAI's results. This suggests the model effectively separates semantically distinct queries while maintaining high similarity scores for synonymous ones.
 
-![image](https://github.com/user-attachments/assets/550889af-d5a6-454f-a35a-6423d90b4acb)
+![Uploading image.png…]()
 
-**BioBERT and MedEmbed:** Both domain-specific models perform reasonably well. BioBERT demonstrates sharper query separation, whereas MedEmbed produces softer distinction.
-
-However, both models seem to struggle with abbreviations, as seen in the fourth query pair:
-
-todo
-
-This may impact their usability in applications where accurate handling of abbreviations is essential.
+**BioBERT and MedEmbed:** Both domain-specific models perform reasonably well. BioBERT demonstrates sharper query separation, whereas MedEmbed produces softer distinction. However, both models seem to struggle with abbreviations, which may impact their usability in applications where accurate handling of abbreviations is essential.
 
 ![image](https://github.com/user-attachments/assets/39f199ee-7e96-42e7-b2ad-d0b7a9e54cbd)
 
