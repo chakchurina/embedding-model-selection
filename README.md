@@ -178,7 +178,7 @@ The results are visualized in the heatmaps below, where color intensity represen
 
 **ModernBERT:** A model can behave similar to any of the previously analyzed ones, depending on whether strict or more relaxed query separation is required. However, results should not look like ModernBERT: the lack of a visible diagonal suggests an inability to distinguish similar queries within the same domain.
 
-The choice of model depends on the application. If strict query separation is required, OpenAI’s model is a strong candidate. For a more flexible approach, Voyage or Alibaba may be considered. The key takeaway is that the model should not behave like ModernBERT in the given visualization, where all queries appear equally relevant.
+The choice of model depends on the application. If strict query separation is required, OpenAI’s model is a strong candidate. For a more flexible approach, Voyage or ModernBERT-gte may be considered. The key takeaway is that the model should not behave like ModernBERT in the given visualization, where all queries appear equally relevant.
 
 ### How Query and Document Embeddings Work Together
 
