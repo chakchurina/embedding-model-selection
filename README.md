@@ -172,7 +172,7 @@ The results are visualized in the heatmaps below, where color intensity represen
 
 ![image](https://github.com/user-attachments/assets/39f199ee-7e96-42e7-b2ad-d0b7a9e54cbd)
 
-**ModernBERT-gte (gte-modernbert-base):** todo.
+**ModernBERT-gte (gte-modernbert-base):** performs well in this test: the diagonal is generally well-defined, with no high scores outside of it. Off-diagonal values are relatively high compared to the diagonal, meaning the model softly separates non-synonymous queries that still belong to the same domain.
 
 ![image](https://github.com/user-attachments/assets/baebc5b6-c21a-4400-bd1d-4ddd6a883dd0)
 
