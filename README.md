@@ -333,7 +333,9 @@ The table below demonstrates that not all models handle medical terms effectivel
 
 6. **MedEmbed** performed only slightly better than BioBERT. It maintained a general connection to the medical field, making it somewhat usable in this context. However, it failed to handle pharmaceutical terms such as "Ozempic" and "Cladribine:, producing inadequate associations.
 
-7. **ModernBERT** is entirely unreliable for medical terminology. More than half of its associations fell outside the medical domain. Instead of relevant terms, the model returned words like "bombastically", "queenfish", "frostwort", and "schmaltz". This indicates that the model is not suitable for handling medical context.
+7. **ModernBERT-gte** (gte-modernbert-base): 
+
+8. **ModernBERT** is entirely unreliable for medical terminology. More than half of its associations fell outside the medical domain. Instead of relevant terms, the model returned words like "bombastically", "queenfish", "frostwort", and "schmaltz". This indicates that the model is not suitable for handling medical context.
 
 The analysis of domain-specific terms reveals significant variation in model performance for specialized fields. This test underscores that leaderboard rankings or general-purpose claims do not always reflect a model’s real-world effectiveness, especially for domain-specific applications.
 
