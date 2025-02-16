@@ -230,7 +230,7 @@ The distributions above show the similarity scores of documents to the category 
 
 8. **ModernBERT**: The model behaves incorrectly. Documents from _Gestational diabetes_ have a higher average similarity to _LADA_ than to their own category. The average similarity to LADA exceeds 0.8, while to Gestational diabetes it is only ~0.7. This suggests that the model fails to correctly distinguish categories.
 
-Additionally, visualizing similarity distributions helps assess the similarity values that each model assigns to domain-specific texts. These insights can be used to fine-tune threshold values for retrieval tasks, balancing recall and precision in search applications.
+Мisualizing similarity distributionss helps assess how well a model handles texts in your domain and provides insights into the similarity values typical for each model. It reveals the cosine distance range between documents and queries while also offering intuition about the shape of the distribution. These insights can guide the selection of appropriate threshold values for document filtering in retrieval tasks, helping you balance recall and precision in search applications.
 
 ### Robustness to Typos
 
