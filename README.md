@@ -276,12 +276,12 @@ To evaluate typo tolerance, we measured the cosine similarity between the embedd
 5. **BioBERT** consistently produces low similarity scores (with an average of ~0.5 on relevant data from the previous test). Given this, the model failed to recognize more than half of the typo-modified terms, indicating poor error-handling capabilities.
 
 6. **MedEmbed** previously tended to assign high similarity scores to relevant data, with an average of ~0.7 for relevant texts. However, in this test, only 3 out of 12 terms exceeded 0.7, indicating a lack of robustness to typos.
+   
+7. **ModernBERT-gte** (gte-modernbert-base): in the previous test, it showed an average similarity of around 0.7 for relevant texts, and here the model produces comparable results. Most typo-modified terms received scores consistent with expected values for relevant pairs. The model only failed to handle the typo in "therapy", but in all other cases, it confidently recognized misspelled words.
     
-7. **ModernBERT**, with an average similarity of ~0.8 for relevant texts, appears relatively resistant to typos. It missed only a few terms, suggesting strong error tolerance. However, inconsistencies observed in previous tests raise concerns about the model’s overall reliability.
+8. **ModernBERT**, with an average similarity of ~0.8 for relevant texts, appears relatively resistant to typos. It missed only a few terms, suggesting strong error tolerance. However, inconsistencies observed in previous tests raise concerns about the model’s overall reliability.
 
 This analysis shows how differently models handle user input errors. Understanding typo tolerance is crucial for assessing how a model processes noisy data and how reliably it performs in real-world search scenarios. This highlights the importance of a holistic model selection approach, since a model that excels in one aspect may appear vulnerable in another.
-
-todo: consider examining tokenization differences, as tokenization plays a key role in how models process misspelled words.
 
 ### Handling Domain-Specific Terms
 
