@@ -194,7 +194,7 @@ For this test, we used annotations of biomedical research papers from the last f
 
 As a neighboring category, we selected _Latent Autoimmune Diabetes in Adults [C19.246.656]_ (LADA) —  a slow-progressing autoimmune form of diabetes diagnosed in adulthood. For LADA, we only used the category title without associated texts.
 
-Since an average token consists of approximately ¾ of a word (i.e., 100 tokens ≈ 75 words), we excluded annotations longer than 600 words to avoid chunking, as not all models tested support long text sequences.
+Since an average token consists of approximately 3/4 of a word (i.e., 100 tokens ≈ 75 words), we excluded annotations longer than 600 words to avoid chunking, as not all models tested support long text sequences.
 
 So, for analysis, we selected PubMed papers annotations corresponding to two clinically similar diabetes types that differ in etiology.
 
