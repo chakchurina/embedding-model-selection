@@ -333,13 +333,13 @@ The table below demonstrates that not all models handle medical terms effectivel
 
 6. **MedEmbed** performed only slightly better than BioBERT. It maintained a general connection to the medical field, making it somewhat usable in this context. However, it failed to handle pharmaceutical terms such as "Ozempic" and "Cladribine:, producing inadequate associations.
 
-7. **ModernBERT-gte** (gte-modernbert-base): 
+7. **ModernBERT-gte (gte-modernbert-base)** showed moderate performance. The model correctly processed "Antisense oligonucleotide," suggesting "antipode" and "noncoding_dna," which partially reflects the meaning of the term. For "Kabuki syndrome," like other models, it latched onto the word "syndrome" but also pulled in "kuki-chin," which is unrelated. Its results for "Waldenström Macroglobulinemia" are decent, since the model identified relatively relevant terms such as "wilms_tumour" and "blood_profile." It failed on "Ozempic," but unlike Jina and BioBERT, at least some of its nearest terms were medical. Overall, the model demonstrates decent but unremarkable performance in handling medical terminology.
 
 8. **ModernBERT** is entirely unreliable for medical terminology. More than half of its associations fell outside the medical domain. Instead of relevant terms, the model returned words like "bombastically", "queenfish", "frostwort", and "schmaltz". This indicates that the model is not suitable for handling medical context.
 
-The analysis of domain-specific terms reveals significant variation in model performance for specialized fields. This test underscores that leaderboard rankings or general-purpose claims do not always reflect a model’s real-world effectiveness, especially for domain-specific applications.
+The analysis of domain-specific terms shows that model performance can vary significantly across specialized fields. This test provides a way to **look under the hood** of an embedding model and assess whether it truly captures context for terms relevant to your domain.  
 
-An ideal model should capture context accurately, associate terms with their synonyms and conceptually related words to nsure high-quality retrieval in specialized fields. However, even the best models have limitations: new or rare terms absent in training data will not be recognized. In such cases, a hybrid approach combining embeddings with full-text search can enhance system performance and improve search accuracy.
+An ideal model should correctly associate terms with their synonyms and related concepts, ensuring high-quality retrieval. However, even the best models have limitations: new or rare terms that were not part of the training data will remain inaccessible to them. In such cases, a hybrid approach combining embeddings with full-text search can improve system performance and enhance retrieval quality.
 
 ## Bonus Track: Outlier Detection
 
