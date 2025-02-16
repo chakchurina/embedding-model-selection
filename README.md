@@ -210,7 +210,7 @@ This evaluation helps assess:
 - Whether the model differentiates between documents from distinct but related categories.
 - How much variation exists in similarity scores, what are minimum, maximum, and average similarity to both categories.
 
-![image](https://github.com/user-attachments/assets/d01f4d52-9784-480d-8f4c-d8441a22b372)
+![image](https://github.com/user-attachments/assets/8d075812-3be7-4ad8-ab3a-d88f16a7b5c9)
 
 The distributions above show the similarity scores of documents to the category titles _Gestational diabetes_ and _LADA_,  for different embedding models.
 
@@ -226,7 +226,7 @@ The distributions above show the similarity scores of documents to the category 
     
 6. **MedEmbed**: The model’s ability to separate categories is weaker, with average similarity scores of ~0.7 for _Gestational diabetes_ and ~0.6 for _LADA_. The distinction between categories is less pronounced compared to BioBERT, suggesting lower confidence in semantic differentiation.
 
-7. **ModernBERT-gte (gte-modernbert-base):** todo
+7. **ModernBERT-gte (gte-modernbert-base):** The average similarity of texts to their own category is around 0.7, while to the neighboring category, it is approximately 0.6, with minimal overlap between distributions. The model tends to assign high similarity scores, but confidently distinguishes relevant texts from non-relevant ones, and performs well in this test.
 
 8. **ModernBERT**: The model behaves incorrectly. Documents from _Gestational diabetes_ have a higher average similarity to _LADA_ than to their own category. The average similarity to LADA exceeds 0.8, while to Gestational diabetes it is only ~0.7. This suggests that the model fails to correctly distinguish categories.
 
