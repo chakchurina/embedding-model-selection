@@ -261,7 +261,7 @@ To ensure a comprehensive evaluation, the dataset should include different types
 
 Errors should appear at different positions within words: at the beginning, middle, and end, to better simulate real-world user mistakes. This approach allows for a more realistic assessment of the model's performance under noisy input conditions.
 
-![image](https://github.com/user-attachments/assets/3f4c1553-b5c8-4594-bdfc-3bd211e8e9b5)
+![image](https://github.com/user-attachments/assets/8ad1f4c1-c370-4af3-bf0d-e0b9ebe05f03)
 
 To evaluate typo tolerance, we measured the cosine similarity between the embeddings of original medical terms and their misspelled versions across various error types. Based on these results, we generated a heatmap all models.
 
