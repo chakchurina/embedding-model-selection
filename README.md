@@ -33,7 +33,7 @@ Biomedical models:
 - [MedEmbed-small-v0.1](https://huggingface.co/abhinand/MedEmbed-small-v0.1)
 - [BioBERT-mnli-snli-scinli-scitail-mednli-stsb](https://huggingface.co/pritamdeka/BioBERT-mnli-snli-scinli-scitail-mednli-stsb)
 
-We intentionally included ModernBERT, a base language model that has not been trained for sentence similarity tasks. Here it serves as a negative example, illustrating behaviour of  unsuitable model. By the way, kudos to the model’s creators—it is an impressive achievement.
+We intentionally included ModernBERT from HuggingFace, a base language model that has not been trained for sentence similarity tasks. Here it serves as a negative example, illustrating behaviour of  unsuitable model. By the way, kudos to the model’s creators—it is an impressive achievement.
 
 Both authors work in the biomedical data, so we use medical terms and texts for analysis. However, the evaluation methods presented here are universal and can be adapted for any specialized field: whether fintech, legaltech, e-commerce, or other industries.
 
@@ -50,7 +50,7 @@ Vector search typically follows these steps:
 
 In an ideal scenario, if we have
 
-- a set of documents $D$,,
+- a set of documents $D$,
 - a set of queries $Q$,
 - and relevance labels mapping queries to documents $(q, d) \in Q \times D$,
 we could apply standard quantitative [retrieval metrics](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)), such as Precision@k, Recall@k, NDCG@k, or MAP.
@@ -176,9 +176,9 @@ The results are visualized in the heatmaps below, where color intensity represen
 
 ![image](https://github.com/user-attachments/assets/9db75988-e4a7-4aeb-a02d-f162bed1848b)
 
-**ModernBERT:** A model can behave similar to any of the previously analyzed ones, depending on whether strict or more relaxed query separation is required. However, results should not look like ModernBERT: the lack of a visible diagonal suggests an inability to distinguish similar queries within the same domain.
+**ModernBERT-base:** A model can behave similar to any of the previously analyzed ones, depending on whether strict or more relaxed query separation is required. However, results should not look like ModernBERT-base: the lack of a visible diagonal suggests an inability to distinguish similar queries within the same domain.
 
-The choice of model depends on the application. If strict query separation is required, OpenAI’s model is a strong candidate. For a more flexible approach, Voyage or ModernBERT-gte may be considered. The key takeaway is that the model should not behave like ModernBERT in the given visualization, where all queries appear equally relevant.
+The choice of model depends on the application. If strict query separation is required, OpenAI’s model is a strong candidate. For a more flexible approach, Voyage or ModernBERT-gte may be considered. The key takeaway is that the model should not behave like ModernBERT-base in the given visualization, where all queries appear equally relevant.
 
 ### How Query and Document Embeddings Work Together
 
@@ -228,7 +228,7 @@ The distributions above show the similarity scores of documents to the category 
 
 7. **ModernBERT-gte (gte-modernbert-base):** The average similarity of texts to their own category is around 0.7, while to the neighboring category, it is approximately 0.6, with minimal overlap between distributions. The model tends to assign high similarity scores, but confidently distinguishes relevant texts from non-relevant ones, and performs well in this test.
 
-8. **ModernBERT**: The model behaves incorrectly. Documents from _Gestational diabetes_ have a higher average similarity to _LADA_ than to their own category. The average similarity to LADA exceeds 0.8, while to Gestational diabetes it is only ~0.7. This suggests that the model fails to correctly distinguish categories.
+8. **ModernBERT-base**: The model behaves incorrectly. Documents from _Gestational diabetes_ have a higher average similarity to _LADA_ than to their own category. The average similarity to LADA exceeds 0.8, while to Gestational diabetes it is only ~0.7. This suggests that the model fails to correctly distinguish categories.
 
 Мisualizing similarity distributionss helps assess how well a model handles texts in your domain and provides insights into the similarity values typical for each model. It reveals the cosine distance range between documents and queries while also offering intuition about the shape of the distribution. These insights can guide the selection of appropriate threshold values for document filtering in retrieval tasks, helping you balance recall and precision in search applications.
 
@@ -279,7 +279,7 @@ To evaluate typo tolerance, we measured the cosine similarity between the embedd
    
 7. **ModernBERT-gte** (gte-modernbert-base): in the previous test, it showed an average similarity of around 0.7 for relevant texts, and here the model produces comparable results. Most typo-modified terms received scores consistent with expected values for relevant pairs. The model only failed to handle the typo in "therapy", but in all other cases, it confidently recognized misspelled words.
     
-8. **ModernBERT**, with an average similarity of ~0.8 for relevant texts, appears relatively resistant to typos. It missed only a few terms, suggesting strong error tolerance. However, inconsistencies observed in previous tests raise concerns about the model’s overall reliability.
+8. **ModernBERT-base**, with an average similarity of ~0.8 for relevant texts, appears relatively resistant to typos. It missed only a few terms, suggesting strong error tolerance. However, inconsistencies observed in previous tests raise concerns about the model’s overall reliability.
 
 This analysis shows how differently models handle user input errors. Understanding typo tolerance is crucial for assessing how a model processes noisy data and how reliably it performs in real-world search scenarios. This highlights the importance of a holistic model selection approach, since a model that excels in one aspect may appear vulnerable in another.
 
@@ -307,7 +307,7 @@ If the nearest vectors correspond to synonyms, related concepts, or terms from t
 
 The table below demonstrates that not all models handle medical terms effectively.
 
-| Term                            | OpenAI                                    | Voyage                                 | Alibaba                                | Jina                                   | BioBERT                                | MedEmbed                              | ModernBERT-GTE                         | ModernBERT                            |
+| Term                            | OpenAI                                    | Voyage                                 | Alibaba                                | Jina                                   | BioBERT                                | MedEmbed                              | ModernBERT-GTE                         | ModernBERT-base                            |
 |---------------------------------|-------------------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|----------------------------------------|
 | lncRNA                          | nrna, nuclear_rna, informational_rna      | nuclear_rna, mrna, rna                | rna, informational_rna, mrna          | nrna, rna, nrl                        | lunda, livistona, liliales            | rna, nuclear_rna, nrna                | nlrb, nrna, rna                       | mycophage, chalcid, flecainide        |
 | BBB disruption therapy          | blood-brain_barrier, thrombolytic_therapy, clot | therapeutic, therapy, therapeutical   | implosion_therapy, disrupt, therapeutical | implosion_therapy, behavior_therapy, disruption | bobsledding, bd, boding              | disruption, bb, bbs                   | ebbtide, bas_relief, implosion_therapy | feedlot, birthwort, bombastically     |
@@ -335,11 +335,11 @@ The table below demonstrates that not all models handle medical terms effectivel
 
 7. **ModernBERT-gte (gte-modernbert-base)** showed moderate performance. The model correctly processed "Antisense oligonucleotide," suggesting "antipode" and "noncoding_dna," which partially reflects the meaning of the term. For "Kabuki syndrome," like other models, it latched onto the word "syndrome" but also pulled in "kuki-chin," which is unrelated. Its results for "Waldenström Macroglobulinemia" are decent, since the model identified relatively relevant terms such as "wilms_tumour" and "blood_profile." It failed on "Ozempic," but unlike Jina and BioBERT, at least some of its nearest terms were medical. Overall, the model demonstrates decent but unremarkable performance in handling medical terminology.
 
-8. **ModernBERT** is entirely unreliable for medical terminology. More than half of its associations fell outside the medical domain. Instead of relevant terms, the model returned words like "bombastically", "queenfish", "frostwort", and "schmaltz". This indicates that the model is not suitable for handling medical context.
+8. **ModernBERT-base** is entirely unreliable for medical terminology. More than half of its associations fell outside the medical domain. Instead of relevant terms, the model returned words like "bombastically", "queenfish", "frostwort", and "schmaltz". This indicates that the model is not suitable for handling medical context.
 
 The analysis of domain-specific terms shows that model performance can vary significantly across specialized fields. This test provides a way to **look under the hood** of an embedding model and assess whether it truly captures context for terms relevant to your domain.  
 
-An ideal model should correctly associate terms with their synonyms and related concepts, ensuring high-quality retrieval. However, even the best models have limitations: new or rare terms that were not part of the training data will remain inaccessible to them. In such cases, a hybrid approach combining embeddings with full-text search can improve system performance and enhance retrieval quality.
+An ideal model should correctly associate terms with their synonyms and related concepts, ensuring high-quality retrieval. However, even the best models have limitations: new or rare terms that were not part of the training data will remain inaccessible to them.
 
 ## Bonus Track: Outlier Detection
 
