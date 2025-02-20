@@ -160,7 +160,7 @@ The results are visualized in the heatmaps below, where color intensity represen
 
 ![image](https://github.com/user-attachments/assets/948fe6b2-0235-4051-af7f-a6251e99fda0)
 
-**Alibaba (gte-large-en-v1.5):** The diagonal is more distinct compared to Voyage but has inconsistencies. The contrast against the background suggests the model can separate queries to some extent, though not as precisely as OpenAI. This model may be suitable for tasks where semantic flexibility is preferred over strict query separation.
+**Alibaba (gte-large-en-v1.5):** The diagonal is more distinct compared to Voyage but has inconsistencies. The contrast against the background suggests the model can separate queries to some extent, though not as precisely as OpenAI. The model is suitable for tasks that require capturing semantic differences without strict separation.
 
 ![image](https://github.com/user-attachments/assets/bcfb8781-2a4b-4131-a3cc-cb1281052731)
 
@@ -168,7 +168,7 @@ The results are visualized in the heatmaps below, where color intensity represen
 
 ![image](https://github.com/user-attachments/assets/745ce896-80b1-43b2-89a0-3d07529aef8f)
 
-**BioBERT and MedEmbed:** Both domain-specific models perform reasonably well. BioBERT demonstrates sharper query separation, whereas MedEmbed produces softer distinction. However, both models seem to struggle with abbreviations, which may impact their usability in applications where accurate handling of abbreviations is essential.
+**BioBERT and MedEmbed:** Both domain-specific models perform reasonably well. BioBERT demonstrates sharper query separation, whereas MedEmbed produces softer distinction. However, both models seem to struggle with abbreviations, indicating a need for additional mechanisms to ensure accurate abbreviations processing.
 
 ![image](https://github.com/user-attachments/assets/7714a5da-a994-44e6-9225-8c62001a565d)
 
@@ -202,9 +202,9 @@ So, for analysis, we selected PubMed papers annotations corresponding to two cli
 
 The test follows this logic: if two documents belong to the same category, their embeddings should be closer to their own category title than to the title of the neighboring one.
 
-To quantify this, we measure the similarity of document embeddings (eg., _Diabetes, Gestational_) with:
-1. The title of their own category (e.g., "Gestational diabetes").
-2. The title of the neighboring category (e.g., "Latent autoimmune diabetes in adults").
+To quantify this, we measure the similarity between documents and category titles. For each document in a category, we compare its embedding with
+1. An embedded title of their own category (e.g., "Gestational diabetes").
+2. An embedded title of the neighboring category (e.g., "Latent autoimmune diabetes in adults").
 
 This evaluation helps assess:
 - Whether the model differentiates between documents from distinct but related categories.
@@ -230,7 +230,7 @@ The distributions above show the similarity scores of documents to the category 
 
 8. **ModernBERT-base**: The model behaves incorrectly. Documents from _Gestational diabetes_ have a higher average similarity to _LADA_ than to their own category. The average similarity to LADA exceeds 0.8, while to Gestational diabetes it is only ~0.7. This suggests that the model fails to correctly distinguish categories.
 
-Мisualizing similarity distributionss helps assess how well a model handles texts in your domain and provides insights into the similarity values typical for each model. It reveals the cosine distance range between documents and queries while also offering intuition about the shape of the distribution. These insights can guide the selection of appropriate threshold values for document filtering in retrieval tasks, helping you balance recall and precision in search applications.
+Visualizing similarity distributionss helps assess how well a model handles texts in your domain and provides insights into the similarity values typical for each model. It reveals the cosine distance range between documents and queries while also offering intuition about the shape of the distribution. These insights can guide the selection of appropriate threshold values for document filtering in retrieval tasks, helping you balance recall and precision in search applications.
 
 ### Robustness to Typos
 
