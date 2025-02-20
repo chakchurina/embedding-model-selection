@@ -149,31 +149,31 @@ todo: такие запросы можно взять из истории сер
 
 todo перечитай выводы для всех когда пересчитаешь графики
 
-![image](https://github.com/user-attachments/assets/5a24eaa1-1466-413f-a496-930200782a7f)
+![image](https://github.com/user-attachments/assets/8fffe2a9-c82b-43be-92d6-a94a067a0b54)
 
 **OpenAI (text-embedding-3-large):** Диагональ отлично выделена на фоне низких значений для запросов, относящихся к разным парам. Модель уверенно различает схожие запросы внутри пар и практически исключает высокие скоры для несвязанных запросов.
 
-![image](https://github.com/user-attachments/assets/c29cfa0f-06b9-4100-8096-e56d31115f6f)
+![image](https://github.com/user-attachments/assets/e03b38fc-95aa-4f6a-a436-374f8da06d5e)
 
 **Voyage (voyage-large-2):** Диагональ выделяется слабо, это означает, что модель показывает слабую способность различать схожие и несхожие запросы, при этом несвязанные запросы в паре мест показывают близость как на диагонали.
 
-![image](https://github.com/user-attachments/assets/e26a6e95-e106-4854-83f9-8b7ad80e89fa)
+![image](https://github.com/user-attachments/assets/408399da-e1e4-4f73-9e8a-302c9e87aa8b)
 
 **Alibaba (gte-large-en-v1.5):** Диагональ выделена лучше, чем у Voyage, но с пропусками. Контраст с фоном показывает, что модель различает запросы, но не так четко, как OpenAI. Модель может подойти для задач, где важно улавливать семантические различия, но строгое разделение не является приоритетом.
 
-![image](https://github.com/user-attachments/assets/3107a25f-f4c0-47cc-9e0a-ae3ca1bd3a5f)
+![image](https://github.com/user-attachments/assets/55e372af-4e81-40d7-836f-83fafd903c5f)
 
 **Jina (jina-embeddings-v3):** Диагональ отлично выделена, по контрастности напоминает OpenAI, видно, что модель отлично справилась с разделением тестовых запросов.
 
-![image](https://github.com/user-attachments/assets/718fdfdf-ead6-42dd-ab27-daa2bc4ffae8)
+![image](https://github.com/user-attachments/assets/eee51740-3571-4ce7-bada-6a23d1f4794e)
 
 **BioBERT и MedEmbed:** Оба специализированных медицинских эмбеддинга показывают неплохие результаты. BioBERT более контрастно разделяет запросы, а MedEmbed — мягче. Впрочем, обе модели, похоже, не справились с обработкой сокращений.
 
-![image](https://github.com/user-attachments/assets/e630ec67-cac6-481b-b029-16bdd1864a90)
+![image](https://github.com/user-attachments/assets/64c3f416-df52-42a0-8cb3-932c4a4aaa91)
 
 **ModernBERT-gte (gte-modernbert-base):** хорошо себя показывает в этом тесте: диагональ в целом хорошо различима, высоких скоров вне диагонали нет. Значения вне диагонали высокие относительно диагонали, то есть, модель мягко разделяет не синонимичные, но относящиеся к одной и той же области запросы.
 
-![image](https://github.com/user-attachments/assets/9dbc19e5-f419-42ff-b681-3009a236f96a)
+![image](https://github.com/user-attachments/assets/4352dcd1-d413-4cc1-bd8a-4b3914926a5b)
 
 **ModernBERT-base:** Ваша модель может проявлять себя как любая из предыдущих, в зависимости от того, требуется ли вам хорошее разделение запросов в рамках одного домена или более мягкое. Но она точно не должна выглядеть как ModernBERT-base: диагональ здесь отсутствует, что указывает на неспособность модели различать схожие запросы в рамках одного домена.
 
