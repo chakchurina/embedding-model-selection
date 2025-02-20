@@ -150,31 +150,31 @@ We converted each query into a vector and calculated pairwise cosine distances b
 
 The results are visualized in the heatmaps below, where color intensity represents similarity. The diagonal reflects synonymous queries, while off-diagonal values show unrelated queries.
 
-![image](https://github.com/user-attachments/assets/6c4b0deb-3dac-4417-b607-1788eb52cd33)
+![image](https://github.com/user-attachments/assets/0bafbf87-03ff-43be-8f58-5cc7ab0aa271)
 
 **OpenAI (text-embedding-3-large):** The diagonal is clearly distinguished against the low values for queries from different pairs. The model confidently differentiates similar queries within pairs and almost entirely eliminates high scores for unrelated queries. This property is particularly valuable in applications where reducing false positives and ensuring distinct query separation is critical.
 
-![image](https://github.com/user-attachments/assets/0204ddf6-ef55-47af-b29f-9320436acccb)
+![image](https://github.com/user-attachments/assets/44b99535-3241-471a-9acd-fb82d21b5d90)
 
 **Voyage (voyage-large-2):** The diagonal is poorly defined, indicating a weaker ability to differentiate between semantically similar and dissimilar queries. In some cases, unrelated queries exhibit high similarity, suggesting that the model struggles with fine-grained query discrimination.
 
-![image](https://github.com/user-attachments/assets/948fe6b2-0235-4051-af7f-a6251e99fda0)
+![image](https://github.com/user-attachments/assets/e0a8c6fd-355a-46ea-b629-9d4f56d6adb2)
 
 **Alibaba (gte-large-en-v1.5):** The diagonal is more distinct compared to Voyage but has inconsistencies. The contrast against the background suggests the model can separate queries to some extent, though not as precisely as OpenAI. The model is suitable for tasks that require capturing semantic differences without strict separation.
 
-![image](https://github.com/user-attachments/assets/bcfb8781-2a4b-4131-a3cc-cb1281052731)
+![image](https://github.com/user-attachments/assets/bf1f3ee8-2735-4a9f-9524-ca707156c54f)
 
 **Jina (jina-embeddings-v3):** The diagonal is highly pronounced, closely resembling OpenAI's results. This suggests the model effectively separates semantically distinct queries while maintaining high similarity scores for synonymous ones.
 
-![image](https://github.com/user-attachments/assets/745ce896-80b1-43b2-89a0-3d07529aef8f)
+![image](https://github.com/user-attachments/assets/339cca02-44fe-443c-b017-31bc007ec6f1)
 
 **BioBERT and MedEmbed:** Both domain-specific models perform reasonably well. BioBERT demonstrates sharper query separation, whereas MedEmbed produces softer distinction. However, both models seem to struggle with abbreviations, indicating a need for additional mechanisms to ensure accurate abbreviations processing.
 
-![image](https://github.com/user-attachments/assets/7714a5da-a994-44e6-9225-8c62001a565d)
+![image](https://github.com/user-attachments/assets/f1963b9d-4ae5-4a8b-b5d2-b752e8b067f7)
 
 **ModernBERT-gte (gte-modernbert-base):** performs well in this test: the diagonal is generally well-defined, with no high scores outside of it. Off-diagonal values are relatively high compared to the diagonal, meaning the model softly separates non-synonymous queries that still belong to the same domain.
 
-![image](https://github.com/user-attachments/assets/9db75988-e4a7-4aeb-a02d-f162bed1848b)
+![image](https://github.com/user-attachments/assets/4352dcd1-d413-4cc1-bd8a-4b3914926a5b)
 
 **ModernBERT-base:** A model can behave similar to any of the previously analyzed ones, depending on whether strict or more relaxed query separation is required. However, results should not look like ModernBERT-base: the lack of a visible diagonal suggests an inability to distinguish similar queries within the same domain.
 
