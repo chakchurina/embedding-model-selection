@@ -130,19 +130,21 @@ For effective search, query embeddings should capture semantic similarity. The c
 
 To test this, we created nine pairs of semantically close queries relevant to the medical field. In medicine, this doesn’t just mean different phrasings of the same question but also branded vs. generic drug names and abbreviations vs. full terms. Here are a few examples:
 
-In this pair, one query uses a standard medical abbreviation, while the other presents the full term:
-- "PTT abnormalities in individuals with lupus anticoagulant"
-- "Partial thromboplastin time variations in patients with antiphospholipid syndrome"
+In this pair, synonyms are used:
+- "Earwax removal is sometimes necessary when natural cleaning mechanisms fail"
+- "When cerumen does not clear on its own, medical intervention may be required"
 
-Here, the difference is whether a biological term is abbreviated or fully written out:
+Here, the disease name is written out in full in one query and abbreviated in the other:
+- "What are the major predispositions for renal failure?"
+- "Which factors contribute to the development of CKD?"
+
+This pair demonstrates a biological term in its abbreviation and full form:
 - "Role of M1dG in oxidative DNA damage"
 - "Impact of malondialdehyde-deoxyguanine adducts on genomic stability"
 
-This pair demonstrates synonyms in use:
-- "Earwax removal is sometimes necessary when natural cleaning mechanisms fail."
-- "When cerumen does not clear on its own, medical intervention may be required."
-
 Each pair contains queries with similar meaning, but different pairs represent distinct topics.
+
+Such query pairs can be taken from the service's history, if available, or created with the help of a domain expert. It is important that queries within each pair are semantically close, while different pairs remain distinct. In these examples, they are not fully synonymous from a biologist's perspective but are sufficiently similar.
 
 We converted each query into a vector and calculated pairwise cosine distances between all embeddings. Since queries within the same pair should be close in meaning and queries from different pairs should be distinct, we expect the model to reflect this pattern:
 - Lower distances for queries within the same pair,
@@ -152,27 +154,27 @@ The results are visualized in the heatmaps below, where color intensity represen
 
 ![image](https://github.com/user-attachments/assets/0bafbf87-03ff-43be-8f58-5cc7ab0aa271)
 
-**OpenAI (text-embedding-3-large):** The diagonal is clearly distinguished against the low values for queries from different pairs. The model confidently differentiates similar queries within pairs and almost entirely eliminates high scores for unrelated queries. This property is particularly valuable in applications where reducing false positives and ensuring distinct query separation is critical.
+**OpenAI (text-embedding-3-large):** the diagonal is clearly distinguished against the low similarity scores for queries from different pairs. The model confidently differentiates similar queries within pairs and almost entirely eliminates high scores for unrelated queries.
 
 ![image](https://github.com/user-attachments/assets/44b99535-3241-471a-9acd-fb82d21b5d90)
 
-**Voyage (voyage-large-2):** The diagonal is poorly defined, indicating a weaker ability to differentiate between semantically similar and dissimilar queries. In some cases, unrelated queries exhibit high similarity, suggesting that the model struggles with fine-grained query discrimination.
+**Voyage (voyage-large-2):** the diagonal is poorly defined, indicating that the model struggles to distinguish between similar and dissimilar queries. In several cases, unrelated queries show cosine similarity scores as high as those on the diagonal, suggesting poor separation.
 
 ![image](https://github.com/user-attachments/assets/e0a8c6fd-355a-46ea-b629-9d4f56d6adb2)
 
-**Alibaba (gte-large-en-v1.5):** The diagonal is more distinct compared to Voyage but has inconsistencies. The contrast against the background suggests the model can separate queries to some extent, though not as precisely as OpenAI. The model is suitable for tasks that require capturing semantic differences without strict separation.
+**Alibaba (gte-large-en-v1.5):** the diagonal is better defined than in Voyage but has gaps, meaning the model correctly handles some terms but fails with others. The contrast with the background indicates that the model differentiates queries, but not as sharp as OpenAI.
 
 ![image](https://github.com/user-attachments/assets/bf1f3ee8-2735-4a9f-9524-ca707156c54f)
 
-**Jina (jina-embeddings-v3):** The diagonal is highly pronounced, closely resembling OpenAI's results. This suggests the model effectively separates semantically distinct queries while maintaining high similarity scores for synonymous ones.
+**Jina (jina-embeddings-v3):** the diagonal is highly pronounced, closely resembling OpenAI's results. However, there are gaps on the diagonal and clusters of high similarity scores off-diagonal, suggesting that the model struggles with this test.
 
 ![image](https://github.com/user-attachments/assets/339cca02-44fe-443c-b017-31bc007ec6f1)
 
-**BioBERT and MedEmbed:** Both domain-specific models perform reasonably well. BioBERT demonstrates sharper query separation, whereas MedEmbed produces softer distinction. However, both models seem to struggle with abbreviations, indicating a need for additional mechanisms to ensure accurate abbreviations processing.
+**BioBERT and MedEmbed:** both domain-specific biomedical embeddings show moderate performance. BioBERT provides sharper query separation, while MedEmbed takes a softer approach. However, both models struggle with semantics, as seen from gaps along the diagonal.
 
 ![image](https://github.com/user-attachments/assets/f1963b9d-4ae5-4a8b-b5d2-b752e8b067f7)
 
-**ModernBERT-gte (gte-modernbert-base):** performs well in this test: the diagonal is generally well-defined, with no high scores outside of it. Off-diagonal values are relatively high compared to the diagonal, meaning the model softly separates non-synonymous queries that still belong to the same domain.
+**ModernBERT-gte (gte-modernbert-base):** performs well in this test. The diagonal is generally distinguishable, with few high scores off-diagonal. Non-diagonal values remain relatively high compared to the diagonal, meaning the model softly separates non-synonymous queries that still belong to the same domain.
 
 ![image](https://github.com/user-attachments/assets/4352dcd1-d413-4cc1-bd8a-4b3914926a5b)
 
