@@ -1,0 +1,15 @@
+python-dotenv
+torch
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
+tqdm
+transformers
+triton
+flash-attn
+voyageai
+openai
+tiktoken
+git+https://github.com/huggingface/transformers.git
