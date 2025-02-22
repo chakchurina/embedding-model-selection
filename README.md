@@ -152,31 +152,31 @@ We converted each query into a vector and calculated pairwise cosine distances b
 
 The results are visualized in the heatmaps below, where color intensity represents similarity. The diagonal reflects synonymous queries, while off-diagonal values show unrelated queries.
 
-![image](https://github.com/user-attachments/assets/0bafbf87-03ff-43be-8f58-5cc7ab0aa271)
+![image](https://github.com/user-attachments/assets/a3819650-557a-4c7e-956f-17fe7ba5ba73)
 
 **OpenAI (text-embedding-3-large):** the diagonal is clearly distinguished against the low similarity scores for queries from different pairs. The model confidently differentiates similar queries within pairs and almost entirely eliminates high scores for unrelated queries.
 
-![image](https://github.com/user-attachments/assets/44b99535-3241-471a-9acd-fb82d21b5d90)
+![image](https://github.com/user-attachments/assets/e1a0762a-0266-436a-8126-1b79a1334271)
 
 **Voyage (voyage-large-2):** the diagonal is poorly defined, indicating that the model struggles to distinguish between similar and dissimilar queries. In several cases, unrelated queries show cosine similarity scores as high as those on the diagonal, suggesting poor separation.
 
-![image](https://github.com/user-attachments/assets/e0a8c6fd-355a-46ea-b629-9d4f56d6adb2)
+![image](https://github.com/user-attachments/assets/8b10ccd4-770e-46ac-82fb-771f5914b5b0)
 
 **Alibaba (gte-large-en-v1.5):** the diagonal is better defined than in Voyage but has gaps, meaning the model correctly handles some terms but fails with others. The contrast with the background indicates that the model differentiates queries, but not as sharp as OpenAI.
 
-![image](https://github.com/user-attachments/assets/bf1f3ee8-2735-4a9f-9524-ca707156c54f)
+![image](https://github.com/user-attachments/assets/dcf7e604-9edb-4b98-b590-499dbaf4412b)
 
 **Jina (jina-embeddings-v3):** the diagonal is highly pronounced, closely resembling OpenAI's results. However, there are gaps on the diagonal and clusters of high similarity scores off-diagonal, suggesting that the model struggles with this test.
 
-![image](https://github.com/user-attachments/assets/339cca02-44fe-443c-b017-31bc007ec6f1)
+![image](https://github.com/user-attachments/assets/3d4c2689-1e70-443a-a575-439a651d9c2c)
 
 **BioBERT and MedEmbed:** both domain-specific biomedical embeddings show moderate performance. BioBERT provides sharper query separation, while MedEmbed takes a softer approach. However, both models struggle with semantics, as seen from gaps along the diagonal.
 
-![image](https://github.com/user-attachments/assets/f1963b9d-4ae5-4a8b-b5d2-b752e8b067f7)
+![image](https://github.com/user-attachments/assets/cdb512f8-2f2a-484d-97c8-a63871fa6a36)
 
 **ModernBERT-gte (gte-modernbert-base):** performs well in this test. The diagonal is generally distinguishable, with few high scores off-diagonal. Non-diagonal values remain relatively high compared to the diagonal, meaning the model softly separates non-synonymous queries that still belong to the same domain.
 
-![image](https://github.com/user-attachments/assets/4352dcd1-d413-4cc1-bd8a-4b3914926a5b)
+![image](https://github.com/user-attachments/assets/eba41827-b587-4051-b471-6cfff800e7d7)
 
 **ModernBERT-base:** A model can behave similar to any of the previously analyzed ones, depending on whether strict or more relaxed query separation is required. However, results should not look like ModernBERT-base: the lack of a visible diagonal suggests an inability to distinguish similar queries within the same domain.
 
@@ -190,7 +190,7 @@ In biomedical data, we can use MeSH (Medical Subject Headings), a hierarchical s
 
 Here's what [MeSH terms](https://meshb.nlm.nih.gov/treeView) look like
 
-![image](https://github.com/user-attachments/assets/c10365b4-8be7-4cf2-9f3d-004806d27d0e)
+![image](https://github.com/user-attachments/assets/04273aa7-7931-4a69-9725-77af9d9110b6)
 
 For this test, we used annotations of biomedical research papers from the last five years, specifically those classified under the MeSH term _Diabetes, Gestational [C19.246.200]_ — a type of diabetes that develops during pregnancy and typically resolves after childbirth.
 
@@ -200,7 +200,7 @@ Since an average token consists of approximately 3/4 of a word (i.e., 100 tokens
 
 So, for analysis, we selected PubMed papers annotations corresponding to two clinically similar diabetes types that differ in etiology.
 
-![image](https://github.com/user-attachments/assets/a0686398-9492-4d9f-a9cc-6a725f1affe4)
+![image](https://github.com/user-attachments/assets/5bb62867-e717-4616-84d7-197b1cb79288)
 
 The test follows this logic: if two documents belong to the same category, their embeddings should be closer to their own category title than to the title of the neighboring one.
 
