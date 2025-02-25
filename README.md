@@ -212,7 +212,7 @@ This evaluation helps assess:
 - Whether the model differentiates between documents from distinct but related categories.
 - How much variation exists in similarity scores, what are minimum, maximum, and average similarity to both categories.
 
-![image](https://github.com/user-attachments/assets/8d075812-3be7-4ad8-ab3a-d88f16a7b5c9)
+![image](https://github.com/user-attachments/assets/2ca62ce9-5cb4-401a-8e8d-6dbb2f017719)
 
 The distributions above show the similarity scores of documents to the category titles _Gestational diabetes_ and _LADA_,  for different embedding models.
 
