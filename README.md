@@ -375,7 +375,7 @@ Embeddings are not a magic bullet. If your project operates in a specialized or 
 
 To build a reliable search system, it’s essential to consider hybrid approaches, integrate reranking, or leverage additional knowledge sources. This approach ensures that your search system does more than just return documents, but actually answers user queries.
 
-Thank you for reading! If you have questions or ideas, feel free to share them in the comments—we’d love to discuss!
+Thank you for reading the article to the end! If you have any questions or ideas, we'd love to discuss them in the comments. And kudos to [Konstantin Shevchenko](https://www.linkedin.com/in/konstantinshevchenko/) for his help with examples and expert review of the biological tests!
 
 Check out our [GitHub](https://github.com/chakchurina/embedding-model-selection/): where we’ve shared a notebook that you can adapt to your own use cases. We appreciate stars, pull requests, and feedback!
 
