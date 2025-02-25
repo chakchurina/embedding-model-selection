@@ -35,7 +35,7 @@ Biomedical models:
 
 We intentionally included ModernBERT from HuggingFace, a base language model that has not been trained for sentence similarity tasks. Here it serves as a negative example, illustrating behaviour of  unsuitable model. By the way, kudos to the model’s creators—it is an impressive achievement.
 
-Both authors work in the biomedical data, so we use medical terms and texts for analysis. However, the evaluation methods presented here are universal and can be adapted for any specialized field: whether fintech, legaltech, e-commerce, or other industries.
+Both authors work with biomedical data, so we use medical terms and texts for analysis. However, the evaluation methods presented here are universal and can be adapted for any specialized field: whether fintech, legaltech, e-commerce, or other industries.
 
 Let’s dive in!
 
@@ -77,9 +77,9 @@ However, if you check out the [BEIR dataset list](https://github.com/beir-cellar
 - Medical topics,
 - Question answering tasks.
 
-Since we work in the pharmaceutical industry, this is a great starting point. But if your field is, say, legaltech, BEIR might not be as relevant.
+This is a great starting point for those who work in healthcare. But if your field is, say, legaltech, BEIR might not be as relevant.
 
-Thus, while BEIR and MTEB can help shortlist candidate models, the final decision still requires further evaluation.
+So, while BEIR and MTEB can help shortlist candidate models, the final decision still requires further evaluation.
 
 ### Manual Annotation
 
@@ -287,25 +287,31 @@ This analysis shows how differently models handle user input errors. Understandi
 
 ### Handling Domain-Specific Terms
 
-When evaluating embedding quality in a specialized field, it is crucial to understand how well a model processes domain-specific terminology. If a model fails in this specific context and does not associate terms with their synonyms or related concepts, it can lead to a loss of relevant information in retrieval tasks. To assess how well models handle domain-specific terms, we follow these steps:
+### Evaluating Embeddings for Domain-Specific Terms  
 
-1. Curate a set of specialized medical terms, including both well-known and rare ones (medications, therapeutic agents, diseases, etc). Our list:
-    - _lncRNA_ — long non-coding RNAs with gene regulatory functions.  
-    - _BBB disruption therapy_ — method of temporarily disrupting the blood-brain barrier to deliver drugs to brain tissue.
-    - _Ozempic_ — drug for treating Type 2 diabetes and weight management. 
-    - _Antisense oligonucleotide_ — short synthetic DNA or RNA used in therapy for genetic diseases and cancer.
-    - _PD-L1 mAbs_ — monoclonal antibodies that help the immune system recognize and destroy cancer cells.  
-    - _Kabuki syndrome_ — rare genetic disorder.  
-    - _Waldenström Macroglobulinemia_ — rare type of non-Hodgkin lymphoma.  
-    - _Frey syndrome_ — condition causing facial sweating when eating.  
-    - _Metformin_ — medication for Type 2 diabetes treatment (brand name Glucophage).   
-    - _Cladribine_ — drug for treating multiple sclerosis.  
-    - _Zolgensma_ — gene therapy for spinal muscular atrophy.  
-    - _ReoPro_ — drug preventing blood clotting during vascular surgeries.
-2. Convert these terms into embedding vectors using the models under evaluation.
-3. Compare the resulting vectors against a reference dataset (e.g., WordNet) to determine the nearest semantic neighbors and evaluate whether the model "understands" domain-specific terms.
+To assess the quality of embeddings in a specialized field, it is crucial to understand how well a model processes domain-specific terminology. If a model fails to recognize context and does not associate terms with their synonyms or related concepts, this can lead to loss of relevant information in retrieval tasks.  
 
-If the nearest vectors correspond to synonyms, related concepts, or terms from the same field, it indicates that the model correctly captures context. For example, if "RNA" is associated with "genome" or "ribosome," this suggests that the model accurately understands the term. However, if the model associates medical terms with random syllables or unrelated words, it signals weaknesses in handling specialized vocabulary.
+To systematically evaluate how a model handles domain-specific terms, we follow these steps:  
+
+- Curate a set of specialized medical terms, including both common and rare terms.  
+- Convert them into embedding vectors using the models under evaluation.  
+- Compare the resulting vectors against an external reference dataset (e.g., WordNet) to identify the nearest semantic neighbors and determine whether the model "understands" the terms in our domain.  
+
+This is the list of terms we use for this test:  
+
+- lncRNA — long non-coding RNAs involved in gene regulation.  
+- BBB disruption therapy — a method of temporarily disrupting the blood-brain barrier to deliver drugs to brain tissue.  
+- Antisense oligonucleotide — short synthetic DNA or RNA strands used in the treatment of genetic diseases and cancer.  
+- PD-L1 mAbs — monoclonal antibodies that help the immune system recognize and destroy cancer cells.  
+- Kabuki syndrome — a rare genetic disorder.  
+- Waldenström Macroglobulinemia — a rare type of non-Hodgkin lymphoma.  
+- Frey syndrome — a condition that causes facial sweating while eating.  
+- Ozempic — a medication used for Type 2 diabetes treatment and weight management.  
+- Cladribine — a drug used for the treatment of multiple sclerosis.  
+- Zolgensma — a gene therapy for treating spinal muscular atrophy.  
+- ReoPro — a drug used to prevent blood clotting during vascular procedures.  
+
+If a model’s nearest embeddings correspond to synonyms, related concepts, or terms from the same domain, this suggests that the model correctly captures context and meaning. For example, if "RNA" is linked to "genome" or "ribosome," this indicates that the model accurately represents the term. However, if it associates medical terms with random syllables or unrelated words, this signals potential weaknesses in handling specialized terminology.
 
 The table below demonstrates that not all models handle medical terms effectively.
 
